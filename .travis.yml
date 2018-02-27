@@ -20,9 +20,7 @@ script:
   - go vet $(go list ./... | grep -v /vendor/)
   - go test -v -race ./...
   - if [ "${LATEST}" = "true" ]; then
-      gox -osarch="linux/amd64 darwin/amd64 windows/amd64" \
-          -ldflags "-X main.Rev=`git rev-parse --short HEAD`" \
-          -verbose;
+      gox -osarch="linux/amd64 darwin/amd64 windows/amd64" -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose;
     fi
 
 deploy:
