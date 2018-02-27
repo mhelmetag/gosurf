@@ -1,0 +1,42 @@
+language: go
+
+go:
+  - 1.x
+  - tip
+
+matrix:
+  allow_failures:
+    - go: tip
+  fast_finish: true
+
+before_install:
+  - go get github.com/mitchellh/gox
+
+install: true
+
+script:
+  - go get -t -v ./...
+  - diff -u <(echo -n) <(gofmt -d .)
+  - go vet $(go list ./... | grep -v /vendor/)
+  - go test -v -race ./...
+  # Only build binaries from the latest Go release.
+  - if [ "${LATEST}" = "true" ]; then
+      gox -os="linux darwin windows"
+          -arch="amd64"
+          -output="gosurf.."
+          -ldflags "-X main.Rev=`git rev-parse --short HEAD`"
+          -verbose ./...;
+    fi
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: oY0m/ET1vq1uWBGhtdZkYO/6Pd+81XSe6wxAT+zFOsMrHssFzHRtZKf/iCjP2LNwzl3ftuVxpo8hSQ7M2RXcUKxkZv8wWkoVubJkMprysw1xIvaB5xXD3oHnVAHWCDC+PMnBWYVUNsGQPqcVHEWxUgYlX3dkDUeDVHnjcrJpMjK+2X5guuz1ixIu9+F3PmCQe5bI71S5usN1B8xjAoUmb4eo13/bKJJcx8SSa2zowdlYPOQVHaV1oCfq71GumyWt4DoAmiBoqlmEBaHHwG6mwXTbMScjxhZRlCMpXoGOYlvWUnOWY5Be7adugz4JuCvYuM0d0zQstyfATqinkOnyHzKKesgD14EsRIYVZEU1Q+9wmR6gkKJ7WnX/mzHuF0+eXfzkHtXbIHRCtrV21oWvmL0N6sUl3cN6F62grr1cIFC7+GRihwHjdM0l8MI5YB3FBKj8Ox4KdKLDk9/xPGBqspo+/k+RVT1EItcFzFE84PJrNbtwc85N1iZiJJOlViSuCqPACmrXrM6ahEDxZczZY0w2UQLR7PtLkwVSmAvVrIISC5bohh/GeVMTNLqo7MR9IlRdm63ATx633cJd92FLTbvUbV8nQXdnOHZ0CJVS61AjWaUvFCMvRqWYJNsfwS01g4YSNmduPHrlzJUkqso5HgJv7rL9TB7tkj+TfRhQiIs=
+  file:
+    - gosurf.windows.amd64.exe
+    - gosurf.darwin.amd64
+    - gosurf.linux.amd64
+  on:
+    repo: mhelmetag/gosurf
+    tags: true

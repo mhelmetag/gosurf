@@ -11,6 +11,8 @@ import (
 	"github.com/urfave/cli"
 )
 
+const version = "0.0.1"
+
 func main() {
 	var pType string
 	var aID string
@@ -18,8 +20,9 @@ func main() {
 	var srID string
 
 	app := &cli.App{
-		Name:  "gosurf",
-		Usage: "is there surf?",
+		Name:    "gosurf",
+		Usage:   "is there surf?",
+		Version: version,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:        "a",
