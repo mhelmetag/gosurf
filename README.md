@@ -12,7 +12,7 @@ To get a forecast, you need an area ID, region ID and subregion ID.
 
 To search for all areas::
 
-```sh
+```
 $ gosurf p
 +--------+-----------------+
 |   ID   |      NAME       |
@@ -35,8 +35,8 @@ $ gosurf p
 
 To search for regions in Central America, specify regions as the place type (`--pt regions`) and then provide the area ID (`--a 4710`):
 
-```sh
-$ gosurf --a 4710 p --pt regions                                                                      [19:51:57]
+```
+$ gosurf --a 4710 p --pt regions
 +------+-------------+
 |  ID  |    NAME     |
 +------+-------------+
@@ -54,7 +54,7 @@ $ gosurf --a 4710 p --pt regions                                                
 
 To get a forecast (the default subregion is Santa Barbara, CA, USA):
 
-```sh
+```
 $ gosurf f
 +-----------+--------------+-----------------------------+
 |   DATE    |  CONDITION   |           REPORT            |
@@ -71,7 +71,7 @@ $ gosurf f
 
 Or to get a forecast for a different subregion (specifically South Cost Rica):
 
-```sh
+```
 gosurf --a 4710 --r 2736 --sr 3314 f
 +-----------+--------------+--------------------------------+
 |   DATE    |  CONDITION   |             REPORT             |
@@ -86,4 +86,15 @@ gosurf --a 4710 --r 2736 --sr 3314 f
 |           |              | high                           |
 | 3/4/2018  | FAIR         | 2-3ft. - thigh to chest high   |
 +-----------+--------------+--------------------------------+
+```
+
+## Installation
+
+Download the right binary (for example, `gosurf_darwin_amd64` for Mac) and move it to somewhere in your `$PATH` (so that it can be loaded into your command line environment).
+
+For Mac, you might do something like to get `gosurf` 0.0.1:
+
+```
+$ curl -L https://github.com/mhelmetag/gosurf/releases/download/0.0.1/gosurf_darwin_amd64 -o /usr/local/bin/gosurf
+$ chmod a+x /usr/local/bin/gosurf
 ```
