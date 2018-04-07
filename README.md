@@ -72,7 +72,7 @@ $ gosurf f
 Or to get a forecast for a different subregion (specifically South Cost Rica):
 
 ```
-gosurf --a 4710 --r 2736 --sr 3314 f
+$ gosurf --a 4710 --r 2736 --sr 3314 f
 +-----------+--------------+--------------------------------+
 |   DATE    |  CONDITION   |             REPORT             |
 +-----------+--------------+--------------------------------+
@@ -92,7 +92,7 @@ gosurf --a 4710 --r 2736 --sr 3314 f
 
 Download the right binary (for example, `gosurf_darwin_amd64` for Mac) and move it to somewhere in your `$PATH` (so that it can be loaded into your command line environment).
 
-For Mac, you might do something like to get `gosurf` 0.0.1:
+For Mac, you might do something like to get `gosurf` 0.0.2:
 
 ```
 $ curl -L https://github.com/mhelmetag/gosurf/releases/download/0.0.1/gosurf_darwin_amd64 -o /usr/local/bin/gosurf
