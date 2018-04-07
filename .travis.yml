@@ -1,27 +1,18 @@
 language: go
 
-matrix:
-  include:
-    - go: 1.x
-      env: LATEST=true
-    - go: tip
-  allow_failures:
-    - go: tip
-  fast_finish: true
+go:
+  - "1.9"
 
 before_install:
   - go get github.com/mitchellh/gox
-
-install: true
 
 script:
   - go get -t -v ./...
   - diff -u <(echo -n) <(gofmt -d .)
   - go vet $(go list ./... | grep -v /vendor/)
-  - go test -v -race ./...
-  - if [ "${LATEST}" = "true" ]; then
-      gox -osarch="linux/amd64 darwin/amd64 windows/amd64" -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose;
-    fi
+  - gox -osarch="linux/amd64 darwin/amd64 windows/amd64"
+        -ldflags "-X main.Rev=`git rev-parse --short HEAD`"
+        -verbose
 
 deploy:
   provider: releases
@@ -35,4 +26,3 @@ deploy:
   on:
     repo: mhelmetag/gosurf
     tags: true
-    condition: $LATEST = true
