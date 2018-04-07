@@ -25,19 +25,19 @@ func main() {
 		Version: version,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:        "a",
+				Name:        "area,a",
 				Value:       "4716",
 				Usage:       "area ID for a region or subregion",
 				Destination: &aID,
 			},
 			&cli.StringFlag{
-				Name:        "r",
+				Name:        "region,r",
 				Value:       "2081",
 				Usage:       "region ID for a subregion",
 				Destination: &rID,
 			},
 			&cli.StringFlag{
-				Name:        "sr",
+				Name:        "subregion,sr",
 				Value:       "2141",
 				Usage:       "subregion ID",
 				Destination: &srID,
@@ -55,7 +55,7 @@ func main() {
 				},
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:        "pt",
+						Name:        "placetype,pt",
 						Value:       "areas",
 						Usage:       "which place type to search fo (areas, regions, subregions)",
 						Destination: &pType,
