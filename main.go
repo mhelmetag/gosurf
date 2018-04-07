@@ -7,11 +7,13 @@ import (
 
 	"github.com/mhelmetag/surflinef"
 	"github.com/mhelmetag/surfliner"
+	homedir "github.com/mitchellh/go-homedir"
 	"github.com/olekukonko/tablewriter"
-	"github.com/urfave/cli"
+	"gopkg.in/urfave/cli.v2"
+	"gopkg.in/urfave/cli.v2/altsrc"
 )
 
-const version = "0.0.2"
+const version = "0.0.3"
 
 func main() {
 	var pType string
@@ -19,31 +21,60 @@ func main() {
 	var rID string
 	var srID string
 
-	app := &cli.App{
-		Name:    "gosurf",
-		Usage:   "is there surf?",
-		Version: version,
-		Flags: []cli.Flag{
+	cfgFilepath, _ := homedir.Expand("~/.gosurf.yml")
+	flags := []cli.Flag{
+		altsrc.NewStringFlag(
 			&cli.StringFlag{
-				Name:        "area,a",
+				Name:        "area",
+				Aliases:     []string{"a"},
 				Value:       "4716",
 				Usage:       "area ID for a region or subregion",
 				Destination: &aID,
 			},
+		),
+		altsrc.NewStringFlag(
 			&cli.StringFlag{
-				Name:        "region,r",
+				Name:        "region",
+				Aliases:     []string{"r"},
 				Value:       "2081",
 				Usage:       "region ID for a subregion",
 				Destination: &rID,
 			},
+		),
+		altsrc.NewStringFlag(
 			&cli.StringFlag{
-				Name:        "subregion,sr",
+				Name:        "subregion",
+				Aliases:     []string{"s"},
 				Value:       "2141",
 				Usage:       "subregion ID",
 				Destination: &srID,
 			},
+		),
+		&cli.StringFlag{
+			Name:    "configfile",
+			Aliases: []string{"c"},
+			Value:   cfgFilepath,
+			Usage:   "application config filepath",
 		},
-		Commands: []cli.Command{
+	}
+
+	var beforeFunc cli.BeforeFunc
+	_, err := os.Stat(cfgFilepath)
+	if err == nil {
+		beforeFunc = altsrc.InitInputSourceWithContext(flags, altsrc.NewYamlSourceFromFlagFunc("configfile"))
+	} else {
+		beforeFunc = func(c *cli.Context) error {
+			return nil
+		}
+	}
+
+	app := &cli.App{
+		Name:    "gosurf",
+		Usage:   "is there surf?",
+		Version: version,
+		Before:  beforeFunc,
+		Flags:   flags,
+		Commands: []*cli.Command{
 			{
 				Name:    "places",
 				Aliases: []string{"p"},
@@ -55,7 +86,8 @@ func main() {
 				},
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:        "placetype,pt",
+						Name:        "placetype",
+						Aliases:     []string{"t"},
 						Value:       "areas",
 						Usage:       "which place type to search fo (areas, regions, subregions)",
 						Destination: &pType,
