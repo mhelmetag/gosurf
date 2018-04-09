@@ -88,13 +88,19 @@ $ gosurf --a 4710 --r 2736 --sr 3314 f
 +-----------+--------------+--------------------------------+
 ```
 
+## Configuration File
+
+To more easily configure a common place for a forecast, you can create a `.gosurf.yml` file in your home directory. It should look like the example in the repo (`.gosurf.sample.yml`).
+
+The CLI will read in the values to override the global flags' defaults (by flag name; so `area` would be for the `area` flag). These loaded values can always be overridden by specifying global flags while running a command.
+
 ## Installation
 
 Download the right binary (for example, `gosurf_darwin_amd64` for Mac) and move it to somewhere in your `$PATH` (so that it can be loaded into your command line environment).
 
-For Mac, you might do something like to get `gosurf` 0.0.2:
+For Mac, you might do something like to download `gosurf` 0.0.3:
 
 ```
-$ curl -L https://github.com/mhelmetag/gosurf/releases/download/0.0.1/gosurf_darwin_amd64 -o /usr/local/bin/gosurf
+$ curl -L https://github.com/mhelmetag/gosurf/releases/download/0.0.3/gosurf_darwin_amd64 -o /usr/local/bin/gosurf
 $ chmod a+x /usr/local/bin/gosurf
 ```
