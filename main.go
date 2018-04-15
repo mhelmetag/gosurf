@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/mhelmetag/surflinef"
@@ -111,6 +112,23 @@ func main() {
 					return nil
 				},
 			},
+			{
+				Name:    "tide",
+				Aliases: []string{"t"},
+				Usage:   "get the tides for a subregion",
+				Action: func(c *cli.Context) error {
+					err := validateSubRegion(aID, rID, srID)
+					if err != nil {
+						fmt.Println("Couldn't find a subregion with the given ID")
+
+						return nil
+					}
+
+					tide(aID, rID, srID)
+
+					return nil
+				},
+			},
 		},
 	}
 
@@ -133,7 +151,7 @@ func search(pType string, aID string, rID string) {
 func forecast(aID string, rID string, srID string) {
 	c, err := surflinef.DefaultClient()
 	if err != nil {
-		fmt.Println("Error while building the SurflineF client")
+		fmt.Println("There was an error while building the SurflineF client")
 
 		return
 	}
@@ -147,14 +165,14 @@ func forecast(aID string, rID string, srID string) {
 
 	qs, err := q.QueryString()
 	if err != nil {
-		fmt.Println("Error building query for Forecast")
+		fmt.Println("There was an error while building a query for the forecast")
 
 		return
 	}
 
 	f, err := c.GetForecast(srID, qs)
 	if err != nil {
-		fmt.Println("Error fetching Forecast")
+		fmt.Println("There was an error while fetching the forecast")
 
 		return
 	}
@@ -162,17 +180,49 @@ func forecast(aID string, rID string, srID string) {
 	analysisToTable(f.Analysis)
 }
 
+func tide(aID string, rID string, srID string) {
+	c, err := surflinef.DefaultClient()
+	if err != nil {
+		fmt.Println("There was an error while building the SurflineF client")
+
+		return
+	}
+
+	q := surflinef.Query{
+		Resources:    []string{"tide"},
+		Days:         7,
+		Units:        "e",
+		FullAnalysis: true,
+	}
+
+	qs, err := q.QueryString()
+	if err != nil {
+		fmt.Println("There was an error while building a query for the tide")
+
+		return
+	}
+
+	f, err := c.GetForecast(srID, qs)
+	if err != nil {
+		fmt.Println("There was an error while fetching the tide")
+
+		return
+	}
+
+	tideToTable(f.Tide)
+}
+
 func areas() {
 	c, err := surfliner.DefaultClient()
 	if err != nil {
-		fmt.Println("Error while building the SurflineR client")
+		fmt.Println("There was an error while building the SurflineR client")
 
 		return
 	}
 
 	as, err := c.Areas()
 	if err != nil {
-		fmt.Println("Error while fetching Areas")
+		fmt.Println("There was an error while fetching the areas")
 
 		return
 	}
@@ -183,12 +233,12 @@ func areas() {
 func regions(aID string) {
 	c, err := surfliner.DefaultClient()
 	if err != nil {
-		fmt.Println("Error while building the SurflineR client")
+		fmt.Println("There was an error while building the SurflineR client")
 	}
 
 	rs, err := c.Regions(aID)
 	if err != nil {
-		fmt.Println("Error while fetching Regions")
+		fmt.Println("There was an error while fetching the regions")
 	}
 
 	placeToTable(rs)
@@ -197,12 +247,12 @@ func regions(aID string) {
 func subRegions(aID string, rID string) {
 	c, err := surfliner.DefaultClient()
 	if err != nil {
-		fmt.Println("Error while building the SurflineR client")
+		fmt.Println("There was an error while building the SurflineR client")
 	}
 
 	rs, err := c.SubRegions(aID, rID)
 	if err != nil {
-		fmt.Println("Error while fetching Regions")
+		fmt.Println("There was an error while fetching the subregions")
 	}
 
 	placeToTable(rs)
@@ -211,7 +261,7 @@ func subRegions(aID string, rID string) {
 func validateSubRegion(aID string, rID string, srID string) error {
 	c, err := surfliner.DefaultClient()
 	if err != nil {
-		fmt.Println("Error while building the SurflineR client")
+		fmt.Println("There was an error while building the SurflineR client")
 	}
 
 	_, err = c.SubRegion(aID, rID, srID)
@@ -256,4 +306,50 @@ func analysisReports(a surflinef.Analysis) []string {
 	}
 
 	return rs
+}
+
+// use merging on date https://github.com/olekukonko/tablewriter#example-6----identical-cells-merging
+func tideToTable(t surflinef.Tide) {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Date", "Time", "Description", "Height"})
+	table.SetAutoMergeCells(true)
+
+	filtered := filterTides(t.DataPoints)
+
+	tf := "2006-01-02 15:04:05"
+
+	for i := range filtered {
+		t := filtered[i]
+
+		tt, err := time.Parse(tf, t.Localtime)
+		if err != nil {
+			fmt.Println("Error while parsing date for tides")
+
+			return
+		}
+
+		td := fmt.Sprintf("%d/%d/%d", tt.Month(), tt.Day(), tt.Year())
+		ttt := fmt.Sprintf("%d:%d", tt.Hour(), tt.Minute())
+		h := strconv.FormatFloat(float64(t.Height), 'f', 2, 32)
+		table.Append([]string{td, ttt, t.Type, h})
+	}
+
+	table.Render()
+}
+
+func filterTides(ts []surflinef.DataPoint) []surflinef.DataPoint {
+	validTides := []surflinef.DataPoint{}
+	for i := range ts {
+		t := ts[i]
+
+		if validTide(t) {
+			validTides = append(validTides, t)
+		}
+	}
+
+	return validTides
+}
+
+func validTide(t surflinef.DataPoint) bool {
+	return t.Type == "Low" || t.Type == "High" || t.Type == "Sunrise" || t.Type == "Sunset"
 }
