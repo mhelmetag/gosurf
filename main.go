@@ -314,7 +314,7 @@ func tideToTable(t surflinef.Tide) {
 	table.SetHeader([]string{"Date", "Time", "Description", "Height"})
 	table.SetAutoMergeCells(true)
 
-	filtered := filterTides(t.DataPoints)
+	filtered := filterPoints(t.DataPoints)
 
 	tf := "2006-01-02 15:04:05"
 
@@ -329,7 +329,7 @@ func tideToTable(t surflinef.Tide) {
 		}
 
 		td := fmt.Sprintf("%d/%d/%d", tt.Month(), tt.Day(), tt.Year())
-		ttt := fmt.Sprintf("%d:%d", tt.Hour(), tt.Minute())
+		ttt := fmt.Sprintf("%02d:%02d", tt.Hour(), tt.Minute())
 		h := strconv.FormatFloat(float64(t.Height), 'f', 2, 32)
 		table.Append([]string{td, ttt, t.Type, h})
 	}
@@ -337,19 +337,19 @@ func tideToTable(t surflinef.Tide) {
 	table.Render()
 }
 
-func filterTides(ts []surflinef.DataPoint) []surflinef.DataPoint {
-	validTides := []surflinef.DataPoint{}
-	for i := range ts {
-		t := ts[i]
+func filterPoints(ps []surflinef.DataPoint) []surflinef.DataPoint {
+	vps := []surflinef.DataPoint{}
+	for i := range ps {
+		p := ps[i]
 
-		if validTide(t) {
-			validTides = append(validTides, t)
+		if validPoint(p) {
+			vps = append(vps, p)
 		}
 	}
 
-	return validTides
+	return vps
 }
 
-func validTide(t surflinef.DataPoint) bool {
-	return t.Type == "Low" || t.Type == "High" || t.Type == "Sunrise" || t.Type == "Sunset"
+func validPoint(p surflinef.DataPoint) bool {
+	return p.Type == "Low" || p.Type == "High"
 }
