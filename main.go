@@ -14,7 +14,7 @@ import (
 	"gopkg.in/urfave/cli.v2/altsrc"
 )
 
-const version = "0.0.3"
+const version = "0.0.4"
 
 func main() {
 	var pType string
