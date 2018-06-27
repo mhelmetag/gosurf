@@ -14,13 +14,14 @@ import (
 	"gopkg.in/urfave/cli.v2/altsrc"
 )
 
-const version = "0.0.4"
+const version = "0.0.5"
 
 func main() {
-	var pType string
 	var aID string
 	var rID string
 	var srID string
+	var pType string
+	var d int
 
 	cfgFilepath, _ := homedir.Expand("~/.gosurf.yml")
 	flags := []cli.Flag{
@@ -49,6 +50,15 @@ func main() {
 				Value:       "2141",
 				Usage:       "subregion ID",
 				Destination: &srID,
+			},
+		),
+		altsrc.NewIntFlag(
+			&cli.IntFlag{
+				Name:        "days",
+				Aliases:     []string{"d"},
+				Value:       7,
+				Usage:       "number of days to report (between 1 and 15)",
+				Destination: &d,
 			},
 		),
 		&cli.StringFlag{
@@ -107,7 +117,7 @@ func main() {
 						return nil
 					}
 
-					forecast(aID, rID, srID)
+					forecast(aID, rID, srID, d)
 
 					return nil
 				},
@@ -124,7 +134,7 @@ func main() {
 						return nil
 					}
 
-					tide(aID, rID, srID)
+					tide(aID, rID, srID, d)
 
 					return nil
 				},
@@ -148,7 +158,7 @@ func search(pType string, aID string, rID string) {
 	}
 }
 
-func forecast(aID string, rID string, srID string) {
+func forecast(aID string, rID string, srID string, d int) {
 	c, err := surflinef.DefaultClient()
 	if err != nil {
 		fmt.Println("There was an error while building the SurflineF client")
@@ -156,9 +166,15 @@ func forecast(aID string, rID string, srID string) {
 		return
 	}
 
+	if !validDayAmount(d) {
+		fmt.Println("The number of days to report can only be between 1 and 15")
+
+		return
+	}
+
 	q := surflinef.Query{
 		Resources:    []string{"analysis"},
-		Days:         7,
+		Days:         d,
 		Units:        "e",
 		FullAnalysis: true,
 	}
@@ -180,7 +196,7 @@ func forecast(aID string, rID string, srID string) {
 	analysisToTable(f.Analysis)
 }
 
-func tide(aID string, rID string, srID string) {
+func tide(aID string, rID string, srID string, d int) {
 	c, err := surflinef.DefaultClient()
 	if err != nil {
 		fmt.Println("There was an error while building the SurflineF client")
@@ -188,9 +204,15 @@ func tide(aID string, rID string, srID string) {
 		return
 	}
 
+	if !validDayAmount(d) {
+		fmt.Println("The number of days to report can only be between 1 and 15")
+
+		return
+	}
+
 	q := surflinef.Query{
 		Resources:    []string{"tide"},
-		Days:         7,
+		Days:         d,
 		Units:        "e",
 		FullAnalysis: true,
 	}
@@ -352,4 +374,14 @@ func filterPoints(ps []surflinef.DataPoint) []surflinef.DataPoint {
 
 func validPoint(p surflinef.DataPoint) bool {
 	return p.Type == "Low" || p.Type == "High"
+}
+
+func validDayAmount(d int) bool {
+	if d < 1 {
+		return false
+	} else if d > 15 {
+		return false
+	} else {
+		return true
+	}
 }

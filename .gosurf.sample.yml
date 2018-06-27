@@ -2,3 +2,4 @@
 area: "4716" # North America
 region: "2081" # Southern California
 subregion: "2953" # South San Diego
+days: 10 # Fetch 10 days of data for forecast, tide, etc
