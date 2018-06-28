@@ -57,7 +57,7 @@ func main() {
 				Name:        "days",
 				Aliases:     []string{"d"},
 				Value:       7,
-				Usage:       "number of days to report (between 1 and 15)",
+				Usage:       "number of days to report (between 1 and 8)",
 				Destination: &d,
 			},
 		),
@@ -205,7 +205,7 @@ func tide(aID string, rID string, srID string, d int) {
 	}
 
 	if !validDayAmount(d) {
-		fmt.Println("The number of days to report can only be between 1 and 15")
+		fmt.Println("The number of days to report can only be between 1 and 8")
 
 		return
 	}
@@ -330,7 +330,6 @@ func analysisReports(a surflinef.Analysis) []string {
 	return rs
 }
 
-// use merging on date https://github.com/olekukonko/tablewriter#example-6----identical-cells-merging
 func tideToTable(t surflinef.Tide) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Date", "Time", "Description", "Height"})
@@ -377,11 +376,8 @@ func validPoint(p surflinef.DataPoint) bool {
 }
 
 func validDayAmount(d int) bool {
-	if d < 1 {
-		return false
-	} else if d > 15 {
-		return false
-	} else {
-		return true
-	}
+	// I'd like to support more days (it can be up to 17)
+	// but I have to update SurflineF to hardcode the query param
+	// "callback" which seems to allow more than 8 days
+	return d > 1 || d < 8
 }

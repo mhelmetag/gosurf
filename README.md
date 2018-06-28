@@ -48,8 +48,6 @@ $ gosurf --a 4710 p --pt regions
 +------+-------------+
 ```
 
-
-
 ### Forecasts
 
 To get a forecast (the default subregion is Santa Barbara, CA, USA):
