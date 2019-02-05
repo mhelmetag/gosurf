@@ -17,7 +17,7 @@ func Forecast(aID string, rID string, srID string, d int) {
 	}
 
 	if !validDayAmount(d) {
-		fmt.Println("The number of days to report can only be between 1 and 15")
+		fmt.Println("The number of days to report can only be between 1 and 8")
 
 		return
 	}
