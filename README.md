@@ -33,7 +33,7 @@ $ gosurf p
 +--------+-----------------+
 ```
 
-To search for regions in Central America, specify regions as the place type (`--pt regions`) and then provide the area ID (`--a 4710`):
+To search for regions in Central America, specify regions as the place type (`--t regions`) and then provide the area ID (`--a 4710`):
 
 ```
 $ gosurf --a 4710 p --pt regions
