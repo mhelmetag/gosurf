@@ -10,7 +10,7 @@ import (
 	"gopkg.in/urfave/cli.v2/altsrc"
 )
 
-const version = "0.0.5"
+const version = "1.0.0"
 
 func main() {
 	var aID string
