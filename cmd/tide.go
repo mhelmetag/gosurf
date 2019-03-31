@@ -23,9 +23,9 @@ func Tide(aID string, rID string, srID string, d int) {
 	}
 
 	q := surflinef.Query{
-		Resources:		[]string{"tide"},
-		Days:					d,
-		Units:				"e",
+		Resources:    []string{"tide"},
+		Days:         d,
+		Units:        "e",
 		FullAnalysis: true,
 	}
 

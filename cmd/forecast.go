@@ -23,9 +23,9 @@ func Forecast(aID string, rID string, srID string, d int) {
 	}
 
 	q := surflinef.Query{
-		Resources:		[]string{"analysis"},
-		Days:				 d,
-		Units:				"e",
+		Resources:    []string{"analysis"},
+		Days:         d,
+		Units:        "e",
 		FullAnalysis: true,
 	}
 
