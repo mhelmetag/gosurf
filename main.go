@@ -23,45 +23,45 @@ func main() {
 	flags := []cli.Flag{
 		altsrc.NewStringFlag(
 			&cli.StringFlag{
-				Name:        "area",
-				Aliases:     []string{"a"},
-				Value:       "4716",
-				Usage:       "area ID for a region or subregion",
+				Name:				"area",
+				Aliases:		 []string{"a"},
+				Value:			 "4716",
+				Usage:			 "area ID for a region or subregion",
 				Destination: &aID,
 			},
 		),
 		altsrc.NewStringFlag(
 			&cli.StringFlag{
-				Name:        "region",
-				Aliases:     []string{"r"},
-				Value:       "2081",
-				Usage:       "region ID for a subregion",
+				Name:				"region",
+				Aliases:		 []string{"r"},
+				Value:			 "2081",
+				Usage:			 "region ID for a subregion",
 				Destination: &rID,
 			},
 		),
 		altsrc.NewStringFlag(
 			&cli.StringFlag{
-				Name:        "subregion",
-				Aliases:     []string{"s"},
-				Value:       "2141",
-				Usage:       "subregion ID",
+				Name:				"subregion",
+				Aliases:		 []string{"s"},
+				Value:			 "2141",
+				Usage:			 "subregion ID",
 				Destination: &srID,
 			},
 		),
 		altsrc.NewIntFlag(
 			&cli.IntFlag{
-				Name:        "days",
-				Aliases:     []string{"d"},
-				Value:       7,
-				Usage:       "number of days to report (between 1 and 8)",
+				Name:				"days",
+				Aliases:		 []string{"d"},
+				Value:			 7,
+				Usage:			 "number of days to report (between 1 and 8)",
 				Destination: &d,
 			},
 		),
 		&cli.StringFlag{
-			Name:    "configfile",
+			Name:		"configfile",
 			Aliases: []string{"c"},
-			Value:   cfgFilepath,
-			Usage:   "application config filepath",
+			Value:	 cfgFilepath,
+			Usage:	 "application config filepath",
 		},
 	}
 
@@ -76,22 +76,22 @@ func main() {
 	}
 
 	app := &cli.App{
-		Name:    "gosurf",
-		Usage:   "is there surf?",
+		Name:		"gosurf",
+		Usage:	 "is there surf?",
 		Version: version,
-		Before:  beforeFunc,
-		Flags:   flags,
+		Before:	beforeFunc,
+		Flags:	 flags,
 		Commands: []*cli.Command{
 			{
-				Name:    "places",
+				Name:		"places",
 				Aliases: []string{"p"},
-				Usage:   "search for places that surfline supports",
+				Usage:	 "search for places that surfline supports",
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:        "placetype",
-						Aliases:     []string{"t"},
-						Value:       "areas",
-						Usage:       "which place type to search fo (areas, regions, subregions)",
+						Name:				"placetype",
+						Aliases:		 []string{"t"},
+						Value:			 "areas",
+						Usage:			 "which place type to search fo (areas, regions, subregions)",
 						Destination: &pType,
 					},
 				},
@@ -102,9 +102,9 @@ func main() {
 				},
 			},
 			{
-				Name:    "forecast",
+				Name:		"forecast",
 				Aliases: []string{"f"},
-				Usage:   "get a forecast for a subregion",
+				Usage:	 "get a forecast for a subregion",
 				Action: func(c *cli.Context) error {
 					cmd.Forecast(aID, rID, srID, d)
 
@@ -112,9 +112,9 @@ func main() {
 				},
 			},
 			{
-				Name:    "tide",
+				Name:		"tide",
 				Aliases: []string{"t"},
-				Usage:   "get the tides for a subregion",
+				Usage:	 "get the tides for a subregion",
 				Action: func(c *cli.Context) error {
 					cmd.Tide(aID, rID, srID, d)
 

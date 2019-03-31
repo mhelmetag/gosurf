@@ -1,11 +1,11 @@
 package cmd
 
 import (
-  "fmt"
+	"fmt"
 
-  "github.com/mhelmetag/gosurf/helpers"
+	"github.com/mhelmetag/gosurf/helpers"
 
-  "github.com/mhelmetag/surflinef"
+	"github.com/mhelmetag/surflinef"
 )
 
 func Tide(aID string, rID string, srID string, d int) {
@@ -23,9 +23,9 @@ func Tide(aID string, rID string, srID string, d int) {
 	}
 
 	q := surflinef.Query{
-		Resources:    []string{"tide"},
-		Days:         d,
-		Units:        "e",
+		Resources:		[]string{"tide"},
+		Days:					d,
+		Units:				"e",
 		FullAnalysis: true,
 	}
 

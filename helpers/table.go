@@ -1,14 +1,14 @@
 package helpers
 
 import(
-  "fmt"
-  "os"
-  "strconv"
-  "time"
+	"fmt"
+	"os"
+	"strconv"
+	"time"
 
-  "github.com/mhelmetag/surflinef"
-  "github.com/mhelmetag/surfliner"
-  "github.com/olekukonko/tablewriter"
+	"github.com/mhelmetag/surflinef"
+	"github.com/mhelmetag/surfliner"
+	"github.com/olekukonko/tablewriter"
 )
 
 func PlaceToTable(ps []surfliner.Place) {

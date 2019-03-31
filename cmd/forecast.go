@@ -1,11 +1,11 @@
 package cmd
 
 import (
-  "fmt"
+	"fmt"
 
-  "github.com/mhelmetag/gosurf/helpers"
+	"github.com/mhelmetag/gosurf/helpers"
 
-  "github.com/mhelmetag/surflinef"
+	"github.com/mhelmetag/surflinef"
 )
 
 func Forecast(aID string, rID string, srID string, d int) {
@@ -23,9 +23,9 @@ func Forecast(aID string, rID string, srID string, d int) {
 	}
 
 	q := surflinef.Query{
-		Resources:    []string{"analysis"},
-		Days:         d,
-		Units:        "e",
+		Resources:		[]string{"analysis"},
+		Days:				 d,
+		Units:				"e",
 		FullAnalysis: true,
 	}
 
@@ -50,6 +50,6 @@ func validDayAmount(d int) bool {
 	// I'd like to support more days (it can be up to 17)
 	// but I have to update SurflineF to hardcode the query param
 	// "callback" which seems to allow more than 8 days
-  // Or allow a token to be configured (not sure if the callback matters anymore)
+	// Or allow a token to be configured (not sure if the callback matters anymore)
 	return d > 1 || d < 8
 }

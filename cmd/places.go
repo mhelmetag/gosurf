@@ -1,16 +1,16 @@
 package cmd
 
 import (
-  "fmt"
+	"fmt"
 
-  "github.com/mhelmetag/gosurf/helpers"
+	"github.com/mhelmetag/gosurf/helpers"
 
-  "github.com/mhelmetag/surfliner"
+	"github.com/mhelmetag/surfliner"
 )
 
 func Places(pType string, aID string, rID string) {
-  var ps []surfliner.Place
-  var err error
+	var ps []surfliner.Place
+	var err error
 
 	switch pType {
 	case "areas":
@@ -23,9 +23,9 @@ func Places(pType string, aID string, rID string) {
 
 	}
 
-  if err != nil {
-    fmt.Println("An error occured while searching spots...")
-  }
+	if err != nil {
+		fmt.Println("An error occured while searching spots...")
+	}
 
-  helpers.PlaceToTable(ps)
+	helpers.PlaceToTable(ps)
 }
