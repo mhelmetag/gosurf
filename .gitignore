@@ -3,3 +3,5 @@ debug.test
 
 # built binaries
 *_amd64*
+
+gosurf

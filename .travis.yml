@@ -1,7 +1,7 @@
 language: go
 
 go:
-  - "1.9"
+  - master
 
 before_install:
   - go get github.com/mitchellh/gox
@@ -11,8 +11,8 @@ script:
   - diff -u <(echo -n) <(gofmt -d .)
   - go vet $(go list ./... | grep -v /vendor/)
   - gox -osarch="linux/amd64 darwin/amd64 windows/amd64"
-        -ldflags "-X main.Rev=`git rev-parse --short HEAD`"
-        -verbose
+    -ldflags "-X main.Rev=`git rev-parse --short HEAD`"
+    -verbose
 
 deploy:
   provider: releases
