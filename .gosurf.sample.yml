@@ -1,5 +1,3 @@
 ---
-area: "4716" # North America
-region: "2081" # Southern California
-subregion: "2953" # South San Diego
+spot: "58581a836630e24c44878fd4" # Santa Barbara
 days: 5 # Fetch 5 days of data for forecast, tide, etc

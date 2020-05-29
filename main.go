@@ -10,50 +10,29 @@ import (
 	"gopkg.in/urfave/cli.v2/altsrc"
 )
 
-const version = "1.0.0"
+const version = "2.0.0"
 
 func main() {
-	var aID string
-	var rID string
-	var srID string
-	var pType string
+	var sID string
 	var d int
 
 	cfgFilepath, _ := homedir.Expand("~/.gosurf.yml")
 	flags := []cli.Flag{
 		altsrc.NewStringFlag(
 			&cli.StringFlag{
-				Name:        "area",
-				Aliases:     []string{"a"},
-				Value:       "4716",
-				Usage:       "area ID for a region or subregion",
-				Destination: &aID,
-			},
-		),
-		altsrc.NewStringFlag(
-			&cli.StringFlag{
-				Name:        "region",
-				Aliases:     []string{"r"},
-				Value:       "2081",
-				Usage:       "region ID for a subregion",
-				Destination: &rID,
-			},
-		),
-		altsrc.NewStringFlag(
-			&cli.StringFlag{
-				Name:        "subregion",
+				Name:        "spot",
 				Aliases:     []string{"s"},
-				Value:       "2141",
-				Usage:       "subregion ID",
-				Destination: &srID,
+				Value:       "58581a836630e24c44878fd4",
+				Usage:       "spot ID",
+				Destination: &sID,
 			},
 		),
 		altsrc.NewIntFlag(
 			&cli.IntFlag{
 				Name:        "days",
 				Aliases:     []string{"d"},
-				Value:       7,
-				Usage:       "number of days to report (between 1 and 8)",
+				Value:       6,
+				Usage:       "number of days to report (between 1 and 4)",
 				Destination: &d,
 			},
 		),
@@ -83,30 +62,11 @@ func main() {
 		Flags:   flags,
 		Commands: []*cli.Command{
 			{
-				Name:    "places",
-				Aliases: []string{"p"},
-				Usage:   "search for places that surfline supports",
-				Flags: []cli.Flag{
-					&cli.StringFlag{
-						Name:        "placetype",
-						Aliases:     []string{"t"},
-						Value:       "areas",
-						Usage:       "which place type to search fo (areas, regions, subregions)",
-						Destination: &pType,
-					},
-				},
-				Action: func(c *cli.Context) error {
-					cmd.Places(pType, aID, rID)
-
-					return nil
-				},
-			},
-			{
 				Name:    "forecast",
 				Aliases: []string{"f"},
 				Usage:   "get a forecast for a subregion",
 				Action: func(c *cli.Context) error {
-					cmd.Forecast(aID, rID, srID, d)
+					cmd.Forecast(sID, d)
 
 					return nil
 				},
@@ -116,7 +76,7 @@ func main() {
 				Aliases: []string{"t"},
 				Usage:   "get the tides for a subregion",
 				Action: func(c *cli.Context) error {
-					cmd.Tide(aID, rID, srID, d)
+					cmd.Tide(sID, d)
 
 					return nil
 				},
