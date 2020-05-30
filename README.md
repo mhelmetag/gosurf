@@ -1,104 +1,66 @@
 # GoSurf
 
-CLI Client for Surfline.
+CLI Client for Surfline
 
 ## Usage
 
-To get a forecast, you need an area ID, region ID and subregion ID.
+To get a forecast, you need a subregion ID (can be found in the subregional forecast page URL).
 
-`gosurf` can get search the places Surfline services and read the forecasts for those places all from the command line (for Windows, Linux and Mac).
+`gosurf` can read forecasts for all places Surfline services from the command line (for Windows, Linux and Mac).
 
-### Searching for Places
-
-To search for all areas::
-
-```
-$ gosurf p
-+--------+-----------------+
-|   ID   |      NAME       |
-+--------+-----------------+
-|   4716 | North America   |
-|   4710 | Central America |
-|   4711 | South America   |
-|   4707 | Caribbean       |
-|   4712 | Europe          |
-|  54137 | Middle East     |
-|   4715 | Africa          |
-|   4709 | Indian Ocean    |
-|   4705 | Asia            |
-|   4713 | Australia       |
-|   4714 | New Zealand     |
-|   4706 | Pacific Islands |
-| 107392 | WCT Events      |
-+--------+-----------------+
-```
-
-To search for regions in Central America, specify regions as the place type (`--t regions`) and then provide the area ID (`--a 4710`):
-
-```
-$ gosurf --a 4710 p --pt regions
-+------+-------------+
-|  ID  |    NAME     |
-+------+-------------+
-| 3250 | Guatemala   |
-| 2745 | Panama      |
-| 2736 | Costa Rica  |
-| 3234 | Nicaragua   |
-| 3252 | El Salvador |
-+------+-------------+
-```
+Since Surfline cut over to their v2 API, I've been working to make it work with `gosurf`. Search and tide are coming!
 
 ### Forecasts
 
 To get a forecast (the default subregion is Santa Barbara, CA, USA):
 
-```
+```sh
 $ gosurf f
-+-----------+--------------+-----------------------------+
-|   DATE    |  CONDITION   |           REPORT            |
-+-----------+--------------+-----------------------------+
-| 2/26/2018 | POOR TO FAIR | 1-2ft. - knee to thigh high |
-| 2/27/2018 | POOR         | 2-3ft. - knee to chest high |
-| 2/28/2018 | POOR         | 1-2ft. - ankle to knee high |
-| 3/1/2018  | POOR         | 1-2ft. - ankle to knee high |
-| 3/2/2018  | POOR TO FAIR | 1-2ft. - ankle to knee high |
-| 3/3/2018  | POOR TO FAIR | 2-3ft. - knee to waist high |
-| 3/4/2018  | POOR TO FAIR | 2-3ft. - knee to waist high |
-+-----------+--------------+-----------------------------+
++-----------+-------------+--------------+-----------+--------------------+
+|   DATE    | TIME OF DAY |    RATING    |   RANGE   |      FORECAST      |
++-----------+-------------+--------------+-----------+--------------------+
+| 5/29/2020 | AM          | POOR         | 0.5 - 1.0 | Shin to knee high  |
+| 5/29/2020 | PM          | POOR         | 0.5 - 1.0 | Shin to knee high  |
+| 5/30/2020 | AM          | POOR_TO_FAIR | 1.0 - 2.0 | Knee to thigh high |
+| 5/30/2020 | PM          | POOR         | 1.0 - 2.0 | Knee to thigh high |
+| 5/31/2020 | AM          | POOR_TO_FAIR | 1.0 - 2.0 | Knee to thigh high |
+| 5/31/2020 | PM          | POOR         | 1.0 - 2.0 | Knee to thigh high |
+| 6/1/2020  | AM          | POOR_TO_FAIR | 1.0 - 2.0 | Knee to thigh high |
+| 6/1/2020  | PM          | POOR         | 1.0 - 2.0 | Shin to knee high  |
+| 6/2/2020  | AM          | POOR         | 0.5 - 1.0 | Shin to knee high  |
+| 6/2/2020  | PM          | POOR         | 0.5 - 1.0 | Shin to knee high  |
++-----------+-------------+--------------+-----------+--------------------+
 ```
 
-Or to get a forecast for a different subregion (specifically South Cost Rica):
+Or to get a forecast for a different subregion (specifically Ventura, CA, USA):
 
-```
-$ gosurf --a 4710 --r 2736 --sr 3314 f
-+-----------+--------------+--------------------------------+
-|   DATE    |  CONDITION   |             REPORT             |
-+-----------+--------------+--------------------------------+
-| 2/26/2018 | FAIR TO GOOD | 3-5ft. - waist to head high    |
-| 2/27/2018 | FAIR         | 3-4ft. - waist to shoulder     |
-|           |              | high                           |
-| 2/28/2018 | FAIR         | 3-4ft. - waist to chest high   |
-| 3/1/2018  | FAIR         | 3-4ft. - waist to chest high   |
-| 3/2/2018  | FAIR TO GOOD | 3-5ft. - waist to head high    |
-| 3/3/2018  | FAIR TO GOOD | 3-4ft. - waist to shoulder     |
-|           |              | high                           |
-| 3/4/2018  | FAIR         | 2-3ft. - thigh to chest high   |
-+-----------+--------------+--------------------------------+
+```sh
+$ gosurf -d 3 -s 58581a836630e24c4487900c f
++-----------+-------------+--------------+-----------+------------------------+
+|   DATE    | TIME OF DAY |    RATING    |   RANGE   |        FORECAST        |
++-----------+-------------+--------------+-----------+------------------------+
+| 5/29/2020 | AM          | POOR_TO_FAIR | 2.0 - 3.0 | Waist to stomach high  |
+| 5/29/2020 | PM          | POOR_TO_FAIR | 2.0 - 3.0 | Waist to chest high    |
+| 5/30/2020 | AM          | FAIR         | 3.0 - 4.0 | Waist to shoulder high |
+| 5/30/2020 | PM          | POOR_TO_FAIR | 3.0 - 4.0 | Waist to shoulder high |
+| 5/31/2020 | AM          | FAIR         | 3.0 - 4.0 | Waist to shoulder high |
+| 5/31/2020 | PM          | POOR_TO_FAIR | 3.0 - 4.0 | Waist to chest high    |
++-----------+-------------+--------------+-----------+------------------------+
 ```
 
 ## Configuration File
 
 To more easily configure a common place for a forecast, you can create a `.gosurf.yml` file in your home directory. It should look like the example in the repo (`.gosurf.sample.yml`).
 
-The CLI will read in the values to override the global flags' defaults (by flag name; so `area` would be for the `area` flag). These loaded values can always be overridden by specifying global flags while running a command.
+The CLI will read in the values to override the global flags' defaults (by flag name; so `subregion` would be for the `subregion` flag). These loaded values can always be overridden by specifying global flags while running a command.
 
 ## Installation
 
 Download the right binary (for example, `gosurf_darwin_amd64` for Mac) and move it to somewhere in your `$PATH` (so that it can be loaded into your command line environment).
 
-For Mac, you might do something like to download `gosurf` 1.0.0:
+For Mac, you might do something like to download `gosurf` 2.0.0:
 
-```
-$ curl -L https://github.com/mhelmetag/gosurf/releases/download/1.0.0/gosurf_darwin_amd64 -o /usr/local/bin/gosurf
-$ chmod a+x /usr/local/bin/gosurf
+```sh
+curl -L https://github.com/mhelmetag/gosurf/releases/download/2.0.0/gosurf_darwin_amd64 -o /usr/local/bin/gosurf
+chmod a+x /usr/local/bin/gosurf
 ```
