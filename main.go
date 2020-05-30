@@ -13,18 +13,18 @@ import (
 const version = "2.0.0"
 
 func main() {
-	var sID string
+	var srID string
 	var d int
 
 	cfgFilepath, _ := homedir.Expand("~/.gosurf.yml")
 	flags := []cli.Flag{
 		altsrc.NewStringFlag(
 			&cli.StringFlag{
-				Name:        "spot",
+				Name:        "subregion",
 				Aliases:     []string{"s"},
 				Value:       "58581a836630e24c44878fd4",
-				Usage:       "spot ID",
-				Destination: &sID,
+				Usage:       "subregion ID",
+				Destination: &srID,
 			},
 		),
 		altsrc.NewIntFlag(
@@ -32,7 +32,7 @@ func main() {
 				Name:        "days",
 				Aliases:     []string{"d"},
 				Value:       6,
-				Usage:       "number of days to report (between 1 and 4)",
+				Usage:       "number of days to report (between 1 and 6)",
 				Destination: &d,
 			},
 		),
@@ -66,17 +66,7 @@ func main() {
 				Aliases: []string{"f"},
 				Usage:   "get a forecast for a subregion",
 				Action: func(c *cli.Context) error {
-					cmd.Forecast(sID, d)
-
-					return nil
-				},
-			},
-			{
-				Name:    "tide",
-				Aliases: []string{"t"},
-				Usage:   "get the tides for a subregion",
-				Action: func(c *cli.Context) error {
-					cmd.Tide(sID, d)
+					cmd.Forecast(srID, d)
 
 					return nil
 				},

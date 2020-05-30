@@ -11,10 +11,11 @@ import (
 )
 
 // Forecast gathers and prints the forecast table
-func Forecast(sID string, d int) {
+func Forecast(srID string, d int) {
 	bu, err := url.Parse("https://services.surfline.com/kbyg/regions/forecasts/conditions")
 	if err != nil {
-		fmt.Printf("An unexpected error occured")
+		fmt.Println("An unexpected error occured")
+
 		return
 	}
 
@@ -22,18 +23,20 @@ func Forecast(sID string, d int) {
 
 	q := surflinef.Query{
 		Days:        d,
-		SubregionID: sID,
+		SubregionID: srID,
 	}
 
 	qs, err := q.QueryString()
 	if err != nil {
-		fmt.Printf("An error occured while building the query to Surfline")
+		fmt.Println("An error occured while building the query to Surfline")
+
 		return
 	}
 
 	cr, err := c.GetConditions(qs)
 	if err != nil {
-		fmt.Printf("An error occured while fetching the conditions from Surfline")
+		fmt.Println("An error occured while fetching the conditions from Surfline")
+
 		return
 	}
 
