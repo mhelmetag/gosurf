@@ -58,7 +58,7 @@ The CLI will read in the values to override the global flags' defaults (by flag 
 
 Download the right binary (for example, `gosurf_darwin_amd64` for Mac) and move it to somewhere in your `$PATH` (so that it can be loaded into your command line environment).
 
-For Mac, you might do something like to download `gosurf` 2.0.0:
+For Mac, you might do something like this to download `gosurf` 2.0.0:
 
 ```sh
 curl -L https://github.com/mhelmetag/gosurf/releases/download/2.0.0/gosurf_darwin_amd64 -o /usr/local/bin/gosurf
