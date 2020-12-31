@@ -12,7 +12,7 @@ import (
 
 // Forecast gathers forecast data for a subregion and prints it
 func Forecast(srID string, d int) {
-	bu, err := url.Parse("https://services.surfline.com/kbyg/regions/forecasts/conditions")
+	bu, err := url.Parse(surflinef.ConditionsBaseURL)
 	if err != nil {
 		fmt.Println("An unexpected error occured")
 
