@@ -10,7 +10,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-// Forecast gathers and prints the forecast table
+// Forecast gathers forecast data for a subregion and prints it
 func Forecast(srID string, d int) {
 	bu, err := url.Parse("https://services.surfline.com/kbyg/regions/forecasts/conditions")
 	if err != nil {
@@ -42,11 +42,11 @@ func Forecast(srID string, d int) {
 
 	cs := cr.Data.Conditions
 
-	t := time.Now()
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Date", "Time of Day", "Rating", "Range", "Forecast"})
 
 	for i := range cs {
+		t := time.Unix(int64(cs[i].Timestamp), 0)
 		ts := fmt.Sprintf("%d/%d/%d", t.Month(), t.Day(), t.Year())
 
 		cAM := cs[i].AM
@@ -56,8 +56,6 @@ func Forecast(srID string, d int) {
 		cPM := cs[i].PM
 		rangePM := fmt.Sprintf("%.1f - %.1f", cAM.MinHeight, cAM.MaxHeight)
 		table.Append([]string{ts, "PM", cPM.Rating, rangePM, cPM.HumanRelation})
-
-		t = t.AddDate(0, 0, 1)
 	}
 
 	table.Render()
