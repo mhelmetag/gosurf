@@ -5,9 +5,7 @@ import (
 
 	"github.com/mhelmetag/gosurf/cmd"
 
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/urfave/cli/v2"
-	"github.com/urfave/cli/v2/altsrc"
 )
 
 const version = "2.1.0"
@@ -20,78 +18,30 @@ func main() {
 	var tID string
 	var md int
 
-	cfgFilepath, _ := homedir.Expand("~/.gosurf.yml")
-	cfgFilePathFlag := &cli.StringFlag{
-		Name:    "configfile",
-		Aliases: []string{"c"},
-		Value:   cfgFilepath,
-		Usage:   "application config filepath",
-	}
-
-	globalFlags := []cli.Flag{
-		cfgFilePathFlag,
-	}
-
-	subregionFlag := altsrc.NewStringFlag(
-		&cli.StringFlag{
-			Name:        "subregion",
-			Aliases:     []string{"sr"},
-			Required:    true,
-			Usage:       "subregion ID",
-			Destination: &srID,
-		},
-	)
-	spotFlag := altsrc.NewStringFlag(
-		&cli.StringFlag{
-			Name:        "spot",
-			Aliases:     []string{"s"},
-			Required:    true,
-			Usage:       "spot ID",
-			Destination: &sID,
-		},
-	)
-	daysFlag := altsrc.NewIntFlag(
-		&cli.IntFlag{
-			Name:        "days",
-			Aliases:     []string{"d"},
-			Value:       6,
-			Usage:       "number of days to report (between 1 and 6)",
-			Destination: &d,
-		},
-	)
-
-	allFlags := []cli.Flag{
-		cfgFilePathFlag,
-		subregionFlag,
-		spotFlag,
-		daysFlag,
-	}
-
-	// TODO - fix this before release
-	var beforeFunc cli.BeforeFunc
-	_, err := os.Stat(cfgFilepath)
-	if err == nil {
-		beforeFunc = altsrc.InitInputSourceWithContext(allFlags, altsrc.NewYamlSourceFromFlagFunc("configfile"))
-	} else {
-		beforeFunc = func(c *cli.Context) error {
-			return nil
-		}
-	}
-
 	app := &cli.App{
 		Name:    "gosurf",
 		Usage:   "is there surf?",
 		Version: version,
-		Before:  beforeFunc,
-		Flags:   globalFlags,
 		Commands: []*cli.Command{
 			{
 				Name:    "forecast",
 				Aliases: []string{"f"},
 				Usage:   "get a forecast for a subregion",
 				Flags: []cli.Flag{
-					subregionFlag,
-					daysFlag,
+					&cli.StringFlag{
+						Name:        "subregion",
+						Aliases:     []string{"sr"},
+						Required:    true,
+						Usage:       "subregion ID",
+						Destination: &srID,
+					},
+					&cli.IntFlag{
+						Name:        "days",
+						Aliases:     []string{"d"},
+						Value:       6,
+						Usage:       "number of days to report (between 1 and 6)",
+						Destination: &d,
+					},
 				},
 				Action: func(c *cli.Context) error {
 					cmd.Forecast(srID, d)
@@ -104,8 +54,20 @@ func main() {
 				Aliases: []string{"t"},
 				Usage:   "get a tide for a spot",
 				Flags: []cli.Flag{
-					spotFlag,
-					daysFlag,
+					&cli.StringFlag{
+						Name:        "spot",
+						Aliases:     []string{"s"},
+						Required:    true,
+						Usage:       "spot ID",
+						Destination: &sID,
+					},
+					&cli.IntFlag{
+						Name:        "days",
+						Aliases:     []string{"d"},
+						Value:       6,
+						Usage:       "number of days to report (between 1 and 6)",
+						Destination: &d,
+					},
 				},
 				Action: func(c *cli.Context) error {
 					cmd.Tide(sID, d)
@@ -121,14 +83,14 @@ func main() {
 					&cli.StringFlag{
 						Name:        "taxonomy",
 						Aliases:     []string{"t"},
-						Required:    true,
+						Value:       "58f7ed51dadb30820bb38782", // default is Earth
 						Usage:       "taxonomy ID",
 						Destination: &tID,
 					},
 					&cli.IntFlag{
 						Name:        "maxdepth",
 						Aliases:     []string{"md"},
-						Value:       0,
+						Value:       0, // default to depth 0 for most searches
 						Usage:       "max depth for the tree search",
 						Destination: &md,
 					},
