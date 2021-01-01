@@ -17,6 +17,9 @@ func main() {
 	var sID string
 	var d int
 
+	var tID string
+	var md int
+
 	cfgFilepath, _ := homedir.Expand("~/.gosurf.yml")
 	cfgFilePathFlag := &cli.StringFlag{
 		Name:    "configfile",
@@ -33,7 +36,7 @@ func main() {
 		&cli.StringFlag{
 			Name:        "subregion",
 			Aliases:     []string{"sr"},
-			Value:       "58581a836630e24c44878fd4",
+			Required:    true,
 			Usage:       "subregion ID",
 			Destination: &srID,
 		},
@@ -42,7 +45,7 @@ func main() {
 		&cli.StringFlag{
 			Name:        "spot",
 			Aliases:     []string{"s"},
-			Value:       "5842041f4e65fad6a7708814",
+			Required:    true,
 			Usage:       "spot ID",
 			Destination: &sID,
 		},
@@ -114,8 +117,24 @@ func main() {
 				Name:    "search",
 				Aliases: []string{"s"},
 				Usage:   "search through the taxonomy tree",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:        "taxonomy",
+						Aliases:     []string{"t"},
+						Required:    true,
+						Usage:       "taxonomy ID",
+						Destination: &tID,
+					},
+					&cli.IntFlag{
+						Name:        "maxdepth",
+						Aliases:     []string{"md"},
+						Value:       0,
+						Usage:       "max depth for the tree search",
+						Destination: &md,
+					},
+				},
 				Action: func(c *cli.Context) error {
-					cmd.Search(sID)
+					cmd.Search(tID, md)
 
 					return nil
 				},
