@@ -21,19 +21,12 @@ func Forecast(srID string, d int) {
 
 	c := surflinef.Client{BaseURL: bu}
 
-	q := surflinef.Query{
+	q := surflinef.ConditionsQuery{
 		Days:        d,
 		SubregionID: srID,
 	}
 
-	qs, err := q.QueryString()
-	if err != nil {
-		fmt.Println("An error occured while building the query to Surfline")
-
-		return
-	}
-
-	cr, err := c.GetConditions(qs)
+	cr, err := c.GetConditions(q)
 	if err != nil {
 		fmt.Println("An error occured while fetching the conditions from Surfline")
 

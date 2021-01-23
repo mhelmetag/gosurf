@@ -22,19 +22,12 @@ func Tide(sID string, d int) {
 
 	c := surflinef.Client{BaseURL: bu}
 
-	q := surflinef.Query{
+	q := surflinef.TidesQuery{
 		Days:   d,
 		SpotID: sID,
 	}
 
-	qs, err := q.QueryString()
-	if err != nil {
-		fmt.Println("An error occured while building the query to Surfline")
-
-		return
-	}
-
-	tr, err := c.GetTides(qs)
+	tr, err := c.GetTides(q)
 	if err != nil {
 		fmt.Println("An error occured while fetching the tides from Surfline")
 

@@ -26,14 +26,7 @@ func Search(tID string, md int) {
 		Type:     "taxonomy",
 	}
 
-	tqs, err := q.TaxonomyQueryString()
-	if err != nil {
-		fmt.Println("An error occured while building the query to Surfline")
-
-		return
-	}
-
-	t, err := c.GetTaxonomy(tqs)
+	t, err := c.GetTaxonomy(q)
 	if err != nil {
 		fmt.Println("An error occured while fetching the taxonomy tree from Surfline")
 

@@ -38,7 +38,7 @@ func main() {
 					&cli.IntFlag{
 						Name:        "days",
 						Aliases:     []string{"d"},
-						Value:       6,
+						Value:       3,
 						Usage:       "number of days to report (between 1 and 6)",
 						Destination: &d,
 					},
@@ -64,7 +64,7 @@ func main() {
 					&cli.IntFlag{
 						Name:        "days",
 						Aliases:     []string{"d"},
-						Value:       6,
+						Value:       3,
 						Usage:       "number of days to report (between 1 and 6)",
 						Destination: &d,
 					},
