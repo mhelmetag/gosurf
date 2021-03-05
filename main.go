@@ -8,12 +8,13 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-const version = "2.1.0"
+const version = "2.3.0"
 
 func main() {
 	var srID string
-	var sID string
 	var d int
+
+	var sID string
 
 	var tID string
 	var md int
@@ -30,7 +31,7 @@ func main() {
 				Flags: []cli.Flag{
 					&cli.StringFlag{
 						Name:        "subregion",
-						Aliases:     []string{"sr"},
+						Aliases:     []string{"s"},
 						Required:    true,
 						Usage:       "subregion ID",
 						Destination: &srID,
@@ -89,7 +90,7 @@ func main() {
 					},
 					&cli.IntFlag{
 						Name:        "maxdepth",
-						Aliases:     []string{"md"},
+						Aliases:     []string{"d"},
 						Value:       0, // default to depth 0 for most searches
 						Usage:       "max depth for the tree search",
 						Destination: &md,
@@ -97,6 +98,16 @@ func main() {
 				},
 				Action: func(c *cli.Context) error {
 					cmd.Search(tID, md)
+
+					return nil
+				},
+			},
+			{
+				Name:    "search-interactive",
+				Aliases: []string{"si"},
+				Usage:   "search through the taxonomy tree interactively",
+				Action: func(c *cli.Context) error {
+					cmd.SearchInteractive()
 
 					return nil
 				},

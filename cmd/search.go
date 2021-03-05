@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"sort"
+
+	"github.com/mhelmetag/gosurf/shared"
 
 	"github.com/mhelmetag/surflinef/v2"
 	"github.com/olekukonko/tablewriter"
@@ -37,6 +40,8 @@ func Search(tID string, md int) {
 
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"ID", "Type", "TypeID", "Name"})
+
+	sort.Sort(shared.TaxonomySlice(ts))
 
 	for i := range ts {
 		t := ts[i]
