@@ -119,6 +119,25 @@ $ gosurf s -t 58f7ed58dadb30820bb38f8b -md 1
 +--------------------------+---------+--------------------------+------------------------+
 ```
 
+### Search Interactive
+
+This is for interactively searching Surfline's taxonomy tree a bit more easily (similar to the site). Basically I take care of navigating the tree (correct depth and fetching what's next) and you just select as you go with enter.
+
+The last two choices in the tree (4 and 5) are subregions (used for forecasts) and spots (used for tides).
+
+```sh
+$ gosurf si
+Use the arrow keys to navigate: ↓ ↑ → ←  and / toggles search
+? Select Taxonomy:
+  ▸ Africa (58f7f00ddadb30820bb69bbc)
+    Asia (58f7eef1dadb30820bb556be)
+    Europe (58f7eef8dadb30820bb5601b)
+    North America (58f7ed51dadb30820bb38791)
+↓   Oceania (58f7eef9dadb30820bb5626e)
+```
+
+As the hints say: navigation is done using the up and down keys, forward slash (`/`) enters search mode for faster navigation and selecting is done with enter.
+
 ## Installation
 
 Download the right binary (for example, `gosurf_darwin_amd64` for Mac) and move it to somewhere in your `$PATH` (so that it can be loaded into your command line environment).

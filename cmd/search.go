@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"sort"
+
+	"github.com/mhelmetag/gosurf/shared"
 
 	"github.com/mhelmetag/surflinef/v2"
 	"github.com/olekukonko/tablewriter"
@@ -26,14 +29,7 @@ func Search(tID string, md int) {
 		Type:     "taxonomy",
 	}
 
-	tqs, err := q.TaxonomyQueryString()
-	if err != nil {
-		fmt.Println("An error occured while building the query to Surfline")
-
-		return
-	}
-
-	t, err := c.GetTaxonomy(tqs)
+	t, err := c.GetTaxonomy(q)
 	if err != nil {
 		fmt.Println("An error occured while fetching the taxonomy tree from Surfline")
 
@@ -44,6 +40,8 @@ func Search(tID string, md int) {
 
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"ID", "Type", "TypeID", "Name"})
+
+	sort.Sort(shared.TaxonomySlice(ts))
 
 	for i := range ts {
 		t := ts[i]
