@@ -127,7 +127,7 @@ The last two choices in the tree (4 and 5) are subregions (used for forecasts) a
 
 ```sh
 $ gosurf si
-Use the arrow keys to navigate: ↓ ↑ → ←
+Use the arrow keys to navigate: ↓ ↑ → ←  and / toggles search
 ? Select Taxonomy:
   ▸ Africa (58f7f00ddadb30820bb69bbc)
     Asia (58f7eef1dadb30820bb556be)
@@ -136,7 +136,7 @@ Use the arrow keys to navigate: ↓ ↑ → ←
 ↓   Oceania (58f7eef9dadb30820bb5626e)
 ```
 
-Navigation is done using the up and down keys. Selecting is done with enter.
+As the hints say: navigation is done using the up and down keys, forward slash (`/`) enters search mode for faster navigation and selecting is done with enter.
 
 ## Installation
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/url"
 	"sort"
+	"strings"
 
 	"github.com/mhelmetag/gosurf/shared"
 	"github.com/mhelmetag/gosurf/workarounds"
@@ -104,17 +105,24 @@ func deliverPrompt(ts []surflinef.Taxonomy) (string, error) {
 	var names []string
 	for i := range ts {
 		t := ts[i]
-		// Need to present different IDs for normal geonames (0, 1, 2), subregions (3) and spots (4)
-		w := shared.TaxonomyWrapper{Taxonomy: t}
-		n := w.TreeName()
+		n := treeName(t)
 
 		names = append(names, n)
 	}
 
+	searcher := func(in string, i int) bool {
+		t := ts[i]
+		n := strings.Replace(strings.ToLower(t.Name), " ", "", -1)
+		in = strings.Replace(strings.ToLower(in), " ", "", -1)
+
+		return strings.Contains(n, in)
+	}
+
 	prompt := promptui.Select{
-		Label:  "Select Taxonomy",
-		Items:  names,
-		Stdout: &workarounds.BellSkipper{},
+		Label:    "Select Taxonomy",
+		Items:    names,
+		Searcher: searcher,
+		Stdout:   &workarounds.BellSkipper{},
 	}
 
 	i, _, err := prompt.Run()
@@ -126,4 +134,15 @@ func deliverPrompt(ts []surflinef.Taxonomy) (string, error) {
 	id := t.ID
 
 	return id, nil
+}
+
+func treeName(t surflinef.Taxonomy) string {
+	switch t.Type {
+	case "spot":
+		return fmt.Sprintf("%s (%s)", t.Name, t.Spot)
+	case "subregion":
+		return fmt.Sprintf("%s (%s)", t.Name, t.Subregion)
+	default:
+		return fmt.Sprintf("%s (%s)", t.Name, t.ID)
+	}
 }

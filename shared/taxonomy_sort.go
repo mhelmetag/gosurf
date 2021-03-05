@@ -2,7 +2,7 @@ package shared
 
 import "github.com/mhelmetag/surflinef/v2"
 
-// TaxonomySlice attaches the methods of Interface to []surflinef.Taxonomy, sorting in increasing order
+// TaxonomySlice allows me to add sort related funcs to []surflinef.Taxonomy
 type TaxonomySlice []surflinef.Taxonomy
 
 func (x TaxonomySlice) Len() int           { return len(x) }
