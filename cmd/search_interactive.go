@@ -75,6 +75,9 @@ func promptOrBail(c surflinef.Client, ts []surflinef.Taxonomy, step int) error {
 		}
 
 		nts, err := getTaxonomy(c, id)
+		if err != nil {
+			return err
+		}
 
 		step++
 
@@ -86,6 +89,9 @@ func promptOrBail(c surflinef.Client, ts []surflinef.Taxonomy, step int) error {
 		}
 
 		nts, err := getTaxonomy(c, id)
+		if err != nil {
+			return err
+		}
 
 		step++
 

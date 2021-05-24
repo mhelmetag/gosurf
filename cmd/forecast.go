@@ -43,13 +43,40 @@ func Forecast(srID string, d int) {
 		ts := fmt.Sprintf("%d/%d/%d", t.Month(), t.Day(), t.Year())
 
 		cAM := cs[i].AM
-		rangeAM := fmt.Sprintf("%.1f - %.1f", cAM.MinHeight, cAM.MaxHeight)
-		table.Append([]string{ts, "AM", cAM.Rating, rangeAM, cAM.HumanRelation})
+		rangeAM := fmt.Sprintf("%.1f-%.1fft", cAM.MinHeight, cAM.MaxHeight)
+		table.Append([]string{ts, "AM", convertRating(cAM.Rating), rangeAM, cAM.HumanRelation})
 
 		cPM := cs[i].PM
-		rangePM := fmt.Sprintf("%.1f - %.1f", cAM.MinHeight, cAM.MaxHeight)
-		table.Append([]string{ts, "PM", cPM.Rating, rangePM, cPM.HumanRelation})
+		rangePM := fmt.Sprintf("%.1f-%.1fft", cAM.MinHeight, cAM.MaxHeight)
+		table.Append([]string{ts, "PM", convertRating(cPM.Rating), rangePM, cPM.HumanRelation})
 	}
 
 	table.Render()
+}
+
+func convertRating(rating string) string {
+	switch rating {
+	case "FLAT":
+		return "Flat"
+	case "VERY_POOR":
+		return "Very Poor"
+	case "POOR":
+		return "Poor"
+	case "POOR_TO_FAIR":
+		return "Poor to Fair"
+	case "FAIR":
+		return "Fair"
+	case "FAIR_TO_GOOD":
+		return "Fair to Good"
+	case "GOOD":
+		return "Good"
+	case "VERY_GOOD":
+		return "Very Good"
+	case "GOOD_TO_EPIC":
+		return "Good to Epic"
+	case "EPIC":
+		return "Epic"
+	default:
+		return "Unkown"
+	}
 }

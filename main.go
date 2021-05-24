@@ -8,7 +8,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-const version = "2.3.0"
+const version = "2.3.1"
 
 func main() {
 	var srID string
