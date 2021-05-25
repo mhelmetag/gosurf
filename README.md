@@ -11,36 +11,36 @@ CLI Client for Surfline
 To get a forecast (North Los Angeles, CA, USA):
 
 ```sh
-$ gosurf f -sr 58581a836630e24c44878fd5
-+-----------+-------------+--------------+-----------+--------------------+
-|   DATE    | TIME OF DAY |    RATING    |   RANGE   |      FORECAST      |
-+-----------+-------------+--------------+-----------+--------------------+
-| 5/29/2020 | AM          | POOR         | 0.5 - 1.0 | Shin to knee high  |
-| 5/29/2020 | PM          | POOR         | 0.5 - 1.0 | Shin to knee high  |
-| 5/30/2020 | AM          | POOR_TO_FAIR | 1.0 - 2.0 | Knee to thigh high |
-| 5/30/2020 | PM          | POOR         | 1.0 - 2.0 | Knee to thigh high |
-| 5/31/2020 | AM          | POOR_TO_FAIR | 1.0 - 2.0 | Knee to thigh high |
-| 5/31/2020 | PM          | POOR         | 1.0 - 2.0 | Knee to thigh high |
-| 6/1/2020  | AM          | POOR_TO_FAIR | 1.0 - 2.0 | Knee to thigh high |
-| 6/1/2020  | PM          | POOR         | 1.0 - 2.0 | Shin to knee high  |
-| 6/2/2020  | AM          | POOR         | 0.5 - 1.0 | Shin to knee high  |
-| 6/2/2020  | PM          | POOR         | 0.5 - 1.0 | Shin to knee high  |
-+-----------+-------------+--------------+-----------+--------------------+
-```
-
-Or to get a forecast for a different subregion (specifically Ventura, CA, USA):
-
-```sh
-$ gosurf f -sr 58581a836630e24c4487900c -d 3
+$ gosurf f -s 58581a836630e24c44878fd5
 +-----------+-------------+--------------+-----------+------------------------+
 |   DATE    | TIME OF DAY |    RATING    |   RANGE   |        FORECAST        |
 +-----------+-------------+--------------+-----------+------------------------+
-| 5/29/2020 | AM          | POOR_TO_FAIR | 2.0 - 3.0 | Waist to stomach high  |
-| 5/29/2020 | PM          | POOR_TO_FAIR | 2.0 - 3.0 | Waist to chest high    |
-| 5/30/2020 | AM          | FAIR         | 3.0 - 4.0 | Waist to shoulder high |
-| 5/30/2020 | PM          | POOR_TO_FAIR | 3.0 - 4.0 | Waist to shoulder high |
-| 5/31/2020 | AM          | FAIR         | 3.0 - 4.0 | Waist to shoulder high |
-| 5/31/2020 | PM          | POOR_TO_FAIR | 3.0 - 4.0 | Waist to chest high    |
+| 5/24/2021 | AM          | Fair         | 3.0-5.0ft | Waist to head high     |
+| 5/24/2021 | PM          | Poor to Fair | 3.0-5.0ft | Waist to shoulder high |
+| 5/25/2021 | AM          | Fair         | 3.0-4.0ft | Waist to chest high    |
+| 5/25/2021 | PM          | Poor to Fair | 3.0-4.0ft | Waist to stomach high  |
+| 5/26/2021 | AM          | Poor to Fair | 3.0-4.0ft | Waist to chest high    |
+| 5/26/2021 | PM          | Poor to Fair | 3.0-4.0ft | Waist to chest high    |
++-----------+-------------+--------------+-----------+------------------------+
+```
+
+Or to get a forecast for a different subregion (specifically Ventura, CA, USA) and day range:
+
+```sh
+$ gosurf f -s 58581a836630e24c4487900c -d 5
++-----------+-------------+--------------+-----------+------------------------+
+|   DATE    | TIME OF DAY |    RATING    |   RANGE   |        FORECAST        |
++-----------+-------------+--------------+-----------+------------------------+
+| 5/24/2021 | AM          | Fair         | 3.0-4.0ft | Waist to shoulder high |
+| 5/24/2021 | PM          | Poor to Fair | 3.0-4.0ft | Waist to chest high    |
+| 5/25/2021 | AM          | Fair         | 2.0-3.0ft | Waist to stomach high  |
+| 5/25/2021 | PM          | Poor to Fair | 2.0-3.0ft | Waist to stomach high  |
+| 5/26/2021 | AM          | Fair         | 2.0-3.0ft | Waist to stomach high  |
+| 5/26/2021 | PM          | Poor to Fair | 2.0-3.0ft | Waist to stomach high  |
+| 5/27/2021 | AM          | Fair         | 2.0-3.0ft | Waist to stomach high  |
+| 5/27/2021 | PM          | Poor to Fair | 2.0-3.0ft | Waist to stomach high  |
+| 5/28/2021 | AM          | Fair         | 2.0-3.0ft | Waist to stomach high  |
+| 5/28/2021 | PM          | Poor to Fair | 2.0-3.0ft | Waist to chest high    |
 +-----------+-------------+--------------+-----------+------------------------+
 ```
 
