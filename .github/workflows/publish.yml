@@ -1,0 +1,31 @@
+name: Publish
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install gox
+        run: go get github.com/mitchellh/gox
+
+      - name: Compile binaries with gox
+        run: |
+          gox -osarch="linux/amd64 linux/arm darwin/amd64 darwin/arm windows/amd64"
+              -ldflags "-X main.Rev=`git rev-parse --short HEAD`"
+              -verbose
+
+      - name: Publish release with artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            gosurf_linux_amd64
+            gosurf_linux_arm
+            gosurf_darwin_amd64
+            gosurf_darwin_arm
+            gosurf_windows_amd64.exe
