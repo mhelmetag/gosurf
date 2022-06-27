@@ -8,7 +8,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-const version = "2.3.1"
+const VERSION = "3.0.0"
 
 func main() {
 	var srID string
@@ -19,10 +19,12 @@ func main() {
 	var tID string
 	var md int
 
+	var t string
+
 	app := &cli.App{
 		Name:    "gosurf",
 		Usage:   "is there surf?",
-		Version: version,
+		Version: VERSION,
 		Commands: []*cli.Command{
 			{
 				Name:    "forecast",
@@ -31,7 +33,7 @@ func main() {
 				Flags: []cli.Flag{
 					&cli.StringFlag{
 						Name:        "subregion",
-						Aliases:     []string{"s"},
+						Aliases:     []string{"r"},
 						Required:    true,
 						Usage:       "subregion ID",
 						Destination: &srID,
@@ -106,8 +108,17 @@ func main() {
 				Name:    "search-interactive",
 				Aliases: []string{"si"},
 				Usage:   "search through the taxonomy tree interactively",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:        "maxdepth",
+						Aliases:     []string{"t"},
+						Value:       "subregion", //
+						Usage:       "mimics tree structure of the 'Cams & Reports' (spots) and 'Forecasts' (subregions) searches",
+						Destination: &t,
+					},
+				},
 				Action: func(c *cli.Context) error {
-					cmd.SearchInteractive()
+					cmd.SearchInteractive(t)
 
 					return nil
 				},

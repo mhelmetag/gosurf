@@ -12,6 +12,21 @@ import (
 
 // Forecast gathers forecast data for a subregion and prints it
 func Forecast(srID string, d int) {
+	srName, err := getSubregionName(srID)
+	if err != nil {
+		fmt.Println("An error occured while fetching the subregion from Surfline")
+
+		return
+	}
+
+	if srName == "" {
+		fmt.Printf("The subregion with id %s doesn't exist\n", srID)
+
+		return
+	}
+
+	fmt.Printf("Fetching %d day(s) of conditions for %s...\n", d, srName)
+
 	bu, err := url.Parse(surflinef.ConditionsBaseURL)
 	if err != nil {
 		fmt.Println("An unexpected error occured")
@@ -79,4 +94,26 @@ func convertRating(rating string) string {
 	default:
 		return "Unkown"
 	}
+}
+
+func getSubregionName(srID string) (string, error) {
+	bu, err := url.Parse(surflinef.TaxonomyBaseURL)
+	if err != nil {
+		return "", err
+	}
+
+	c := surflinef.Client{BaseURL: bu}
+
+	q := surflinef.TaxonomyQuery{
+		ID:       srID,
+		MaxDepth: 0,
+		Type:     "subregion",
+	}
+
+	t, err := c.GetTaxonomy(q)
+	if err != nil {
+		return "", err
+	}
+
+	return t.Name, nil
 }

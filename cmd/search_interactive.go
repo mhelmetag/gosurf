@@ -13,13 +13,25 @@ import (
 	"github.com/mhelmetag/surflinef/v2"
 )
 
-const earth = "58f7ed51dadb30820bb38782"
-const initialStep = 0
-const subregionStep = 3
-const spotStep = 5
+const EARTH = "58f7ed51dadb30820bb38782"
 
 // SearchInteractive opens interactive selects to navigate the taxonomy tree
-func SearchInteractive() {
+func SearchInteractive(t string) {
+	switch t {
+	case "subregion":
+		searchSubregions()
+	case "spot":
+		searchSpots()
+	default:
+		fmt.Println("Incorrect search type. Must be one of: subregion or spot")
+		return
+	}
+}
+
+func searchSpots() {
+}
+
+func searchSubregions() {
 	bu, err := url.Parse(surflinef.TaxonomyBaseURL)
 	if err != nil {
 		fmt.Println("An unexpected error occured")
@@ -29,7 +41,7 @@ func SearchInteractive() {
 
 	c := surflinef.Client{BaseURL: bu}
 
-	ts, err := getTaxonomy(c, earth)
+	ts, err := getTaxonomy(c, EARTH, 0)
 
 	if err != nil {
 		fmt.Println("An error occured while fetching the taxonomy tree from Surfline")
@@ -37,13 +49,13 @@ func SearchInteractive() {
 		return
 	}
 
-	promptOrBail(c, ts, initialStep)
+	promptOrBail(c, ts, false)
 }
 
-func getTaxonomy(c surflinef.Client, id string) ([]surflinef.Taxonomy, error) {
+func getTaxonomy(c surflinef.Client, id string, maxDepth int) ([]surflinef.Taxonomy, error) {
 	q := surflinef.TaxonomyQuery{
 		ID:       id,
-		MaxDepth: 0,
+		MaxDepth: maxDepth,
 		Type:     "taxonomy",
 	}
 
@@ -55,54 +67,43 @@ func getTaxonomy(c surflinef.Client, id string) ([]surflinef.Taxonomy, error) {
 	return t.Contains, nil
 }
 
-func promptOrBail(c surflinef.Client, ts []surflinef.Taxonomy, step int) error {
-	if step >= spotStep {
+func promptOrBail(c surflinef.Client, ts []surflinef.Taxonomy, subregionsExist bool) error {
+	if subregionsExist {
 		// Last step
+		// Do nothing
+
 		return nil
-	} else if step == subregionStep {
-		fts := []surflinef.Taxonomy{}
+	} else {
+		srs := []surflinef.Taxonomy{}
 		for i := range ts {
 			t := ts[i]
 
-			if validSubregion(t) {
-				fts = append(fts, t)
+			if t.Type == "subregion" {
+				srs = append(srs, t)
 			}
 		}
 
-		id, err := deliverPrompt(fts)
+		var id string
+		var err error
+		subregionsExist := len(srs) > 0
+		if subregionsExist {
+			id, err = deliverPrompt(srs)
+		} else {
+			id, err = deliverPrompt(ts)
+		}
 		if err != nil {
 			return err
 		}
 
-		nts, err := getTaxonomy(c, id)
+		nts, err := getTaxonomy(c, id, 0)
 		if err != nil {
 			return err
 		}
 
-		step++
-
-		promptOrBail(c, nts, step)
-	} else {
-		id, err := deliverPrompt(ts)
-		if err != nil {
-			return err
-		}
-
-		nts, err := getTaxonomy(c, id)
-		if err != nil {
-			return err
-		}
-
-		step++
-
-		promptOrBail(c, nts, step)
+		promptOrBail(c, nts, subregionsExist)
 	}
 
 	return nil
-}
-
-func validSubregion(t surflinef.Taxonomy) bool {
-	return t.Type == "subregion"
 }
 
 func deliverPrompt(ts []surflinef.Taxonomy) (string, error) {
@@ -143,12 +144,9 @@ func deliverPrompt(ts []surflinef.Taxonomy) (string, error) {
 }
 
 func treeName(t surflinef.Taxonomy) string {
-	switch t.Type {
-	case "spot":
-		return fmt.Sprintf("%s (%s)", t.Name, t.Spot)
-	case "subregion":
+	if t.Type == "subregion" {
 		return fmt.Sprintf("%s (%s)", t.Name, t.Subregion)
-	default:
+	} else {
 		return fmt.Sprintf("%s (%s)", t.Name, t.ID)
 	}
 }
