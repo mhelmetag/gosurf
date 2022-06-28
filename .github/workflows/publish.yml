@@ -10,8 +10,17 @@ jobs:
   publish:
     runs-on: ubuntu-latest
 
+    env:
+      GOPATH: ${{ github.workspace }}
+
+    defaults:
+      run:
+        working-directory: ${{ env.GOPATH }}/src/github.com/${{ github.repository }}
+
     steps:
       - uses: actions/checkout@v2
+        with:
+          path: ${{ env.GOPATH }}/src/github.com/${{ github.repository }}
 
       - name: Install gox
         run: go install github.com/mitchellh/gox@v1.0.1
@@ -26,9 +35,9 @@ jobs:
       - name: Publish release with artifacts
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            gosurf_linux_amd64
-            gosurf_linux_arm
-            gosurf_darwin_amd64
-            gosurf_darwin_arm
-            gosurf_windows_amd64.exe
+          files:
+            - gosurf_linux_amd64
+            - gosurf_linux_arm
+            - gosurf_darwin_amd64
+            - gosurf_darwin_arm
+            - gosurf_windows_amd64.exe
