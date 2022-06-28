@@ -147,11 +147,30 @@ As the hints say: navigation is done using the up and down keys, forward slash (
 
 ## Installation
 
-Download the right binary (for example, `gosurf_darwin_amd64` for Mac) and move it to somewhere in your `$PATH` (so that it can be loaded into your command line environment).
+### Binary
 
-For Mac, you might do something like this to download `gosurf` 2.0.0:
+Download the right binary (for example, `gosurf_darwin_arm64` for Mac with M1) and move it to somewhere in your `$PATH` (so that it can be loaded into your command line environment).
+
+For Mac, you might do something like this to download `gosurf` 3.0.0:
 
 ```sh
-curl -L https://github.com/mhelmetag/gosurf/releases/download/2.0.0/gosurf_darwin_amd64 -o /usr/local/bin/gosurf
+curl -L https://github.com/mhelmetag/gosurf/releases/download/3.0.0/gosurf_darwin_arm64 -o /usr/local/bin/gosurf
 chmod a+x /usr/local/bin/gosurf
+```
+
+### From Source
+
+```sh
+go get https://github.com/mhelmetag/gosurf
+```
+
+And then either have your `$GOPATH/bin` in your `$PATH` or move that file into your `$PATH`.
+
+### Homebrew from Source
+
+If you prefer having homebrew do it for you:
+
+```sh
+brew tap mhelmetag/tap
+brew install gosurf
 ```
