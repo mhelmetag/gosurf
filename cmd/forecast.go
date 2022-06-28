@@ -25,7 +25,7 @@ func Forecast(srID string, d int) {
 		return
 	}
 
-	fmt.Printf("Fetching %d day(s) of conditions for %s...\n", d, srName)
+	fmt.Printf("Fetching %d day(s) of forecasts for %s...\n", d, srName)
 
 	bu, err := url.Parse(surflinef.ConditionsBaseURL)
 	if err != nil {
@@ -43,7 +43,7 @@ func Forecast(srID string, d int) {
 
 	cr, err := c.GetConditions(q)
 	if err != nil {
-		fmt.Println("An error occured while fetching the conditions from Surfline")
+		fmt.Println("An error occured while fetching the forecasts from Surfline")
 
 		return
 	}
@@ -52,6 +52,7 @@ func Forecast(srID string, d int) {
 
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Date", "Time of Day", "Rating", "Range", "Forecast"})
+	table.SetAutoMergeCellsByColumnIndex([]int{0})
 
 	for i := range cs {
 		t := time.Unix(int64(cs[i].Timestamp), 0)

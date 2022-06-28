@@ -53,7 +53,7 @@ func Tide(sID string, d int) {
 
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Date", "Time", "Description", "Height"})
-	table.SetAutoMergeCells(true)
+	table.SetAutoMergeCellsByColumnIndex([]int{0})
 
 	ft := filterPoints(ts)
 

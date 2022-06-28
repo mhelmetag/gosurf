@@ -11,40 +11,42 @@ CLI Client for Surfline
 To get a forecast (North Los Angeles, CA, USA):
 
 ```sh
-$ gosurf f -s 58581a836630e24c44878fd5
-+-----------+-------------+--------------+-----------+------------------------+
-|   DATE    | TIME OF DAY |    RATING    |   RANGE   |        FORECAST        |
-+-----------+-------------+--------------+-----------+------------------------+
-| 5/24/2021 | AM          | Fair         | 3.0-5.0ft | Waist to head high     |
-| 5/24/2021 | PM          | Poor to Fair | 3.0-5.0ft | Waist to shoulder high |
-| 5/25/2021 | AM          | Fair         | 3.0-4.0ft | Waist to chest high    |
-| 5/25/2021 | PM          | Poor to Fair | 3.0-4.0ft | Waist to stomach high  |
-| 5/26/2021 | AM          | Poor to Fair | 3.0-4.0ft | Waist to chest high    |
-| 5/26/2021 | PM          | Poor to Fair | 3.0-4.0ft | Waist to chest high    |
-+-----------+-------------+--------------+-----------+------------------------+
+$ gosurf f -r 58581a836630e24c44878fd5
+Fetching 3 day(s) of conditions for North Los Angeles...
++-----------+-------------+--------------+-----------+----------------+
+|   DATE    | TIME OF DAY |    RATING    |   RANGE   |    FORECAST    |
++-----------+-------------+--------------+-----------+----------------+
+| 6/27/2022 | AM          | Poor to Fair | 0.5-1.0ft | Shin to knee   |
+|           | PM          | Poor         | 0.5-1.0ft | Shin to knee   |
+| 6/28/2022 | AM          | Fair         | 1.0-2.0ft | Knee to thigh  |
+|           | PM          | Fair         | 1.0-2.0ft | Thigh to waist |
+| 6/29/2022 | AM          | Fair to Good | 2.0-3.0ft | Thigh to waist |
+|           | PM          | Fair         | 2.0-3.0ft | Thigh to waist |
++-----------+-------------+--------------+-----------+----------------+
 ```
 
 Or to get a forecast for a different subregion (specifically Ventura, CA, USA) and day range:
 
 ```sh
-$ gosurf f -s 58581a836630e24c4487900c -d 5
-+-----------+-------------+--------------+-----------+------------------------+
-|   DATE    | TIME OF DAY |    RATING    |   RANGE   |        FORECAST        |
-+-----------+-------------+--------------+-----------+------------------------+
-| 5/24/2021 | AM          | Fair         | 3.0-4.0ft | Waist to shoulder high |
-| 5/24/2021 | PM          | Poor to Fair | 3.0-4.0ft | Waist to chest high    |
-| 5/25/2021 | AM          | Fair         | 2.0-3.0ft | Waist to stomach high  |
-| 5/25/2021 | PM          | Poor to Fair | 2.0-3.0ft | Waist to stomach high  |
-| 5/26/2021 | AM          | Fair         | 2.0-3.0ft | Waist to stomach high  |
-| 5/26/2021 | PM          | Poor to Fair | 2.0-3.0ft | Waist to stomach high  |
-| 5/27/2021 | AM          | Fair         | 2.0-3.0ft | Waist to stomach high  |
-| 5/27/2021 | PM          | Poor to Fair | 2.0-3.0ft | Waist to stomach high  |
-| 5/28/2021 | AM          | Fair         | 2.0-3.0ft | Waist to stomach high  |
-| 5/28/2021 | PM          | Poor to Fair | 2.0-3.0ft | Waist to chest high    |
-+-----------+-------------+--------------+-----------+------------------------+
+$ gosurf f -r 58581a836630e24c4487900c -d 5
+Fetching 5 day(s) of conditions for Ventura...
++-----------+-------------+--------------+-----------+----------------+
+|   DATE    | TIME OF DAY |    RATING    |   RANGE   |    FORECAST    |
++-----------+-------------+--------------+-----------+----------------+
+| 6/27/2022 | AM          | Poor to Fair | 1.0-2.0ft | Knee to thigh  |
+|           | PM          | Poor to Fair | 1.0-2.0ft | Knee to thigh  |
+| 6/28/2022 | AM          | Fair         | 2.0-3.0ft | Thigh to waist |
+|           | PM          | Fair         | 2.0-3.0ft | Thigh to waist |
+| 6/29/2022 | AM          | Fair         | 2.0-3.0ft | Thigh to waist |
+|           | PM          | Poor to Fair | 2.0-3.0ft | Thigh to waist |
+| 6/30/2022 | AM          | Fair         | 2.0-3.0ft | Thigh to waist |
+|           | PM          | Poor to Fair | 2.0-3.0ft | Thigh to waist |
+| 7/1/2022  | AM          | Fair         | 3.0-4.0ft | Waist to chest |
+|           | PM          | Poor to Fair | 3.0-4.0ft | Waist to chest |
++-----------+-------------+--------------+-----------+----------------+
 ```
 
-Be sure to use the `subregion` ID (if coming from Surfline or their API directly) or the `TYPEID` (if coming from the CLI).
+Be sure to use the `subregion` ID (if coming from Surfline or their API directly) or the `TYPEID` or ID (if coming from the CLI; either solo search or interactive search).
 
 ### Tide
 
@@ -52,21 +54,23 @@ To get the tides for Solimar Beach, CA, USA:
 
 ```sh
 $ gosurf t -s 5842041f4e65fad6a770895f -d 3
-+------------+-------+-------------+--------+
-|    DATE    | TIME  | DESCRIPTION | HEIGHT |
-+------------+-------+-------------+--------+
-| 12/31/2020 | 03:09 | LOW         |   2.39 |
-|            | 09:18 | HIGH        |   6.04 |
-|            | 16:51 | LOW         |  -0.82 |
-|            | 23:25 | HIGH        |   3.58 |
-| 1/1/2021   | 03:45 | LOW         |   2.53 |
-|            | 09:53 | HIGH        |   5.94 |
-|            | 17:28 | LOW         |  -0.69 |
-| 1/2/2021   | 00:08 | HIGH        |   3.61 |
-|            | 04:32 | LOW         |   2.59 |
-|            | 10:34 | HIGH        |   5.64 |
-|            | 18:08 | LOW         |  -0.46 |
-+------------+-------+-------------+--------+
+Fetching 3 day(s) of tides for Solimar...
++-----------+-------+-------------+--------+
+|   DATE    | TIME  | DESCRIPTION | HEIGHT |
++-----------+-------+-------------+--------+
+| 6/27/2022 | 03:57 | LOW         |  -0.46 |
+|           | 10:26 | HIGH        |   3.41 |
+|           | 14:41 | LOW         |   2.49 |
+|           | 20:54 | HIGH        |   5.91 |
+| 6/28/2022 | 04:30 | LOW         |  -0.56 |
+|           | 11:04 | HIGH        |   3.44 |
+|           | 15:13 | LOW         |   2.56 |
+|           | 21:26 | HIGH        |   5.91 |
+| 6/29/2022 | 05:03 | LOW         |  -0.56 |
+|           | 11:40 | HIGH        |   3.44 |
+|           | 15:47 | LOW         |   2.62 |
+|           | 21:58 | HIGH        |   5.87 |
++-----------+-------+-------------+--------+
 ```
 
 Be sure to use the `spot` ID (if coming from Surfline or their API directly) or the `TYPEID` (if coming from the CLI).
@@ -96,7 +100,7 @@ You can then work your way down by passing the next level into the search comman
 To get the records contained in Ventura County (using a max depth of 1 since I'm looking for spots specifically):
 
 ```sh
-$ gosurf s -t 58f7ed58dadb30820bb38f8b -md 1
+$ gosurf s -t 58f7ed58dadb30820bb38f8b -d 1
 +--------------------------+---------+--------------------------+------------------------+
 |            ID            |  TYPE   |          TYPEID          |          NAME          |
 +--------------------------+---------+--------------------------+------------------------+
@@ -123,7 +127,10 @@ $ gosurf s -t 58f7ed58dadb30820bb38f8b -md 1
 
 This is for interactively searching Surfline's taxonomy tree a bit more easily (similar to the site). Basically I take care of navigating the tree (correct depth and fetching what's next) and you just select as you go with enter.
 
-The last two choices in the tree (4 and 5) are subregions (used for forecasts) and spots (used for tides).
+There are two choices (default is subregion):
+
+- `gosurf si -t subregion` mimics the 'Forecasts' tree
+- `gosurf si -t spot` mimics the 'Cams & Reports' tree
 
 ```sh
 $ gosurf si

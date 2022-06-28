@@ -110,7 +110,7 @@ func main() {
 				Usage:   "search through the taxonomy tree interactively",
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:        "maxdepth",
+						Name:        "type",
 						Aliases:     []string{"t"},
 						Value:       "subregion", //
 						Usage:       "mimics tree structure of the 'Cams & Reports' (spots) and 'Forecasts' (subregions) searches",
