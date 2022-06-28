@@ -7,14 +7,14 @@ on:
       - "*.*.*-test"
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Install gox
-        run: go get github.com/mitchellh/gox
+        run: go install github.com/mitchellh/gox@latest
 
       - name: Compile binaries with gox
         run: |
