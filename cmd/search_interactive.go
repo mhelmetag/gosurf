@@ -29,6 +29,26 @@ func SearchInteractive(t string) {
 }
 
 func searchSpots() {
+	bu, err := url.Parse(surflinef.TaxonomyBaseURL)
+	if err != nil {
+		fmt.Println("An unexpected error occured")
+
+		return
+	}
+
+	c := surflinef.Client{BaseURL: bu}
+
+	ts, err := getTaxonomy(c, EARTH, 0)
+
+	if err != nil {
+		fmt.Println("An error occured while fetching the taxonomy tree from Surfline")
+
+		return
+	}
+
+	step := 0
+
+	promptOrBailSpots(c, ts, step)
 }
 
 func searchSubregions() {
@@ -49,7 +69,7 @@ func searchSubregions() {
 		return
 	}
 
-	promptOrBail(c, ts, false)
+	promptOrBailSubregions(c, ts, false)
 }
 
 func getTaxonomy(c surflinef.Client, id string, maxDepth int) ([]surflinef.Taxonomy, error) {
@@ -67,11 +87,61 @@ func getTaxonomy(c surflinef.Client, id string, maxDepth int) ([]surflinef.Taxon
 	return t.Contains, nil
 }
 
-func promptOrBail(c surflinef.Client, ts []surflinef.Taxonomy, subregionsExist bool) error {
-	if subregionsExist {
-		// Last step
-		// Do nothing
+func promptOrBailSpots(c surflinef.Client, ts []surflinef.Taxonomy, step int) error {
+	// step == 0 Earth (depth 0)
+	// step == 1 Continent (depth 0)
+	// step == 2 Country (depth 0)
+	// step == 3 Region (depth 1)
+	// step == 4 Area & Spots (stop)
+	// step == 5 Nothing
 
+	if step == 5 {
+		return nil
+	}
+
+	depth := 0
+
+	if step == 3 {
+		depth = 1
+	}
+
+	id, err := deliverPrompt(ts)
+	if err != nil {
+		return err
+	}
+
+	nts, err := getTaxonomy(c, id, depth)
+	if err != nil {
+		return err
+	}
+
+	fts := []surflinef.Taxonomy{}
+	for i := range nts {
+		t := nts[i]
+
+		if step == 3 {
+			if t.Type == "spot" {
+				fts = append(fts, t)
+			}
+		} else {
+			if t.Type == "geoname" && t.HasSpots {
+				fts = append(fts, t)
+			}
+		}
+	}
+
+	step++
+
+	promptOrBailSpots(c, fts, step)
+
+	return nil
+}
+
+func promptOrBailSubregions(c surflinef.Client, ts []surflinef.Taxonomy, subregionsExist bool) error {
+	// Keep searching for subregions
+	// Stop once found
+
+	if subregionsExist {
 		return nil
 	} else {
 		srs := []surflinef.Taxonomy{}
@@ -100,7 +170,7 @@ func promptOrBail(c surflinef.Client, ts []surflinef.Taxonomy, subregionsExist b
 			return err
 		}
 
-		promptOrBail(c, nts, subregionsExist)
+		promptOrBailSubregions(c, nts, subregionsExist)
 	}
 
 	return nil
@@ -146,6 +216,8 @@ func deliverPrompt(ts []surflinef.Taxonomy) (string, error) {
 func treeName(t surflinef.Taxonomy) string {
 	if t.Type == "subregion" {
 		return fmt.Sprintf("%s (%s)", t.Name, t.Subregion)
+	} else if t.Type == "spot" {
+		return fmt.Sprintf("%s (%s)", t.Name, t.Spot)
 	} else {
 		return fmt.Sprintf("%s (%s)", t.Name, t.ID)
 	}

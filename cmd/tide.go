@@ -13,6 +13,21 @@ import (
 
 // Tide gathers tide data for a spot and prints it
 func Tide(sID string, d int) {
+	sName, err := getSpotName(sID)
+	if err != nil {
+		fmt.Println("An error occured while fetching the spot from Surfline")
+
+		return
+	}
+
+	if sName == "" {
+		fmt.Printf("The spot with id %s doesn't exist\n", sID)
+
+		return
+	}
+
+	fmt.Printf("Fetching %d day(s) of tides for %s...\n", d, sName)
+
 	bu, err := url.Parse(surflinef.TidesBaseURL)
 	if err != nil {
 		fmt.Println("An unexpected error occured")
@@ -71,4 +86,26 @@ func filterPoints(ts []surflinef.Tide) []surflinef.Tide {
 
 func validPoint(t surflinef.Tide) bool {
 	return t.Type == "LOW" || t.Type == "HIGH"
+}
+
+func getSpotName(sID string) (string, error) {
+	bu, err := url.Parse(surflinef.TaxonomyBaseURL)
+	if err != nil {
+		return "", err
+	}
+
+	c := surflinef.Client{BaseURL: bu}
+
+	q := surflinef.TaxonomyQuery{
+		ID:       sID,
+		MaxDepth: 0,
+		Type:     "spot",
+	}
+
+	t, err := c.GetTaxonomy(q)
+	if err != nil {
+		return "", err
+	}
+
+	return t.Name, nil
 }
