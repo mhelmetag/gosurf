@@ -93,7 +93,7 @@ func convertRating(rating string) string {
 	case "EPIC":
 		return "Epic"
 	default:
-		return "Unkown"
+		return "Unknown"
 	}
 }
 
