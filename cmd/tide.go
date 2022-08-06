@@ -63,9 +63,10 @@ func Tide(sID string, d int) {
 		tt := time.Unix(int64(t.Timestamp), 0)
 		td := fmt.Sprintf("%d/%d/%d", tt.Month(), tt.Day(), tt.Year())
 		ttt := fmt.Sprintf("%02d:%02d", tt.Hour(), tt.Minute())
-		h := strconv.FormatFloat(float64(t.Height), 'f', 2, 32)
+		h := strconv.FormatFloat(float64(t.Height), 'f', 2, 64)
+		fh := fmt.Sprintf("%s%s", h, convertTideHeightUnits(tr.Associated.Units.TideHeight))
 
-		table.Append([]string{td, ttt, t.Type, h})
+		table.Append([]string{td, ttt, convertTideType(t.Type), fh})
 	}
 
 	table.Render()
@@ -108,4 +109,20 @@ func getSpotName(sID string) (string, error) {
 	}
 
 	return t.Name, nil
+}
+
+func convertTideHeightUnits(u string) string {
+	if u == "FT" {
+		return "ft"
+	} else {
+		return "m"
+	}
+}
+
+func convertTideType(t string) string {
+	if t == "HIGH" {
+		return "High"
+	} else {
+		return "Low"
+	}
 }
