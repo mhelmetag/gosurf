@@ -12,37 +12,37 @@ To get a forecast (North Los Angeles, CA, USA):
 
 ```sh
 $ gosurf f -r 58581a836630e24c44878fd5
-Fetching 3 day(s) of conditions for North Los Angeles...
-+-----------+-------------+--------------+-----------+----------------+
-|   DATE    | TIME OF DAY |    RATING    |   RANGE   |    FORECAST    |
-+-----------+-------------+--------------+-----------+----------------+
-| 6/27/2022 | AM          | Poor to Fair | 0.5-1.0ft | Shin to knee   |
-|           | PM          | Poor         | 0.5-1.0ft | Shin to knee   |
-| 6/28/2022 | AM          | Fair         | 1.0-2.0ft | Knee to thigh  |
-|           | PM          | Fair         | 1.0-2.0ft | Thigh to waist |
-| 6/29/2022 | AM          | Fair to Good | 2.0-3.0ft | Thigh to waist |
-|           | PM          | Fair         | 2.0-3.0ft | Thigh to waist |
-+-----------+-------------+--------------+-----------+----------------+
+Fetching 3 day(s) of forecasts for North Los Angeles...
++----------+-------------+--------------+-----------+----------------+
+|   DATE   | TIME OF DAY |    RATING    |   RANGE   |    FORECAST    |
++----------+-------------+--------------+-----------+----------------+
+| 8/6/2022 | AM          | Fair         | 2.0-3.0ft | Thigh to waist |
+|          | PM          | Poor to Fair | 2.0-3.0ft | Thigh to waist |
+| 8/7/2022 | AM          | Fair         | 2.0-3.0ft | Thigh to waist |
+|          | PM          | Poor to Fair | 2.0-3.0ft | Knee to thigh  |
+| 8/8/2022 | AM          | Poor to Fair | 1.0-2.0ft | Knee to thigh  |
+|          | PM          | Poor         | 1.0-2.0ft | Knee to thigh  |
++----------+-------------+--------------+-----------+----------------+
 ```
 
 Or to get a forecast for a different subregion (specifically Ventura, CA, USA) and day range:
 
 ```sh
 $ gosurf f -r 58581a836630e24c4487900c -d 5
-Fetching 5 day(s) of conditions for Ventura...
+Fetching 5 day(s) of forecasts for Ventura...
 +-----------+-------------+--------------+-----------+----------------+
 |   DATE    | TIME OF DAY |    RATING    |   RANGE   |    FORECAST    |
 +-----------+-------------+--------------+-----------+----------------+
-| 6/27/2022 | AM          | Poor to Fair | 1.0-2.0ft | Knee to thigh  |
+| 8/6/2022  | AM          | Poor to Fair | 2.0-3.0ft | Thigh to waist |
+|           | PM          | Poor to Fair | 2.0-3.0ft | Thigh to waist |
+| 8/7/2022  | AM          | Poor to Fair | 2.0-3.0ft | Thigh to waist |
+|           | PM          | Poor to Fair | 2.0-3.0ft | Thigh to waist |
+| 8/8/2022  | AM          | Poor to Fair | 1.0-2.0ft | Knee to thigh  |
 |           | PM          | Poor to Fair | 1.0-2.0ft | Knee to thigh  |
-| 6/28/2022 | AM          | Fair         | 2.0-3.0ft | Thigh to waist |
-|           | PM          | Fair         | 2.0-3.0ft | Thigh to waist |
-| 6/29/2022 | AM          | Fair         | 2.0-3.0ft | Thigh to waist |
-|           | PM          | Poor to Fair | 2.0-3.0ft | Thigh to waist |
-| 6/30/2022 | AM          | Fair         | 2.0-3.0ft | Thigh to waist |
-|           | PM          | Poor to Fair | 2.0-3.0ft | Thigh to waist |
-| 7/1/2022  | AM          | Fair         | 3.0-4.0ft | Waist to chest |
-|           | PM          | Poor to Fair | 3.0-4.0ft | Waist to chest |
+| 8/9/2022  | AM          | Poor to Fair | 1.0-2.0ft | Knee to thigh  |
+|           | PM          | Poor         | 1.0-2.0ft | Knee to thigh  |
+| 8/10/2022 | AM          | Poor         | 0.5-1.0ft | Shin to knee   |
+|           | PM          | Poor         | 0.5-1.0ft | Shin to knee   |
 +-----------+-------------+--------------+-----------+----------------+
 ```
 
@@ -55,22 +55,21 @@ To get the tides for Solimar Beach, CA, USA:
 ```sh
 $ gosurf t -s 5842041f4e65fad6a770895f -d 3
 Fetching 3 day(s) of tides for Solimar...
-+-----------+-------+-------------+--------+
-|   DATE    | TIME  | DESCRIPTION | HEIGHT |
-+-----------+-------+-------------+--------+
-| 6/27/2022 | 03:57 | LOW         |  -0.46 |
-|           | 10:26 | HIGH        |   3.41 |
-|           | 14:41 | LOW         |   2.49 |
-|           | 20:54 | HIGH        |   5.91 |
-| 6/28/2022 | 04:30 | LOW         |  -0.56 |
-|           | 11:04 | HIGH        |   3.44 |
-|           | 15:13 | LOW         |   2.56 |
-|           | 21:26 | HIGH        |   5.91 |
-| 6/29/2022 | 05:03 | LOW         |  -0.56 |
-|           | 11:40 | HIGH        |   3.44 |
-|           | 15:47 | LOW         |   2.62 |
-|           | 21:58 | HIGH        |   5.87 |
-+-----------+-------+-------------+--------+
++----------+-------+-------------+---------+
+|   DATE   | TIME  | DESCRIPTION | HEIGHT  |
++----------+-------+-------------+---------+
+| 8/6/2022 | 05:57 | High        | 2.95ft  |
+|          | 09:58 | Low         | 2.53ft  |
+|          | 16:59 | High        | 5.48ft  |
+| 8/7/2022 | 00:55 | Low         | 0.43ft  |
+|          | 07:33 | High        | 3.22ft  |
+|          | 11:24 | Low         | 2.76ft  |
+|          | 18:02 | High        | 5.91ft  |
+| 8/8/2022 | 01:51 | Low         | -0.30ft |
+|          | 08:29 | High        | 3.58ft  |
+|          | 12:40 | Low         | 2.69ft  |
+|          | 19:01 | High        | 6.40ft  |
++----------+-------+-------------+---------+
 ```
 
 Be sure to use the `spot` ID (if coming from Surfline or their API directly) or the `TYPEID` (if coming from the CLI).
