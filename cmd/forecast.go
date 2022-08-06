@@ -59,11 +59,11 @@ func Forecast(srID string, d int) {
 		ts := fmt.Sprintf("%d/%d/%d", t.Month(), t.Day(), t.Year())
 
 		cAM := cs[i].AM
-		rangeAM := fmt.Sprintf("%.1f-%.1fft", cAM.MinHeight, cAM.MaxHeight)
+		rangeAM := fmt.Sprintf("%.1f-%.1f%s", cAM.MinHeight, cAM.MaxHeight, convertWaveHeightUnits(cr.Associated.Units.WaveHeight))
 		table.Append([]string{ts, "AM", convertRating(cAM.Rating), rangeAM, cAM.HumanRelation})
 
 		cPM := cs[i].PM
-		rangePM := fmt.Sprintf("%.1f-%.1fft", cAM.MinHeight, cAM.MaxHeight)
+		rangePM := fmt.Sprintf("%.1f-%.1f%s", cAM.MinHeight, cAM.MaxHeight, convertWaveHeightUnits(cr.Associated.Units.WaveHeight))
 		table.Append([]string{ts, "PM", convertRating(cPM.Rating), rangePM, cPM.HumanRelation})
 	}
 
@@ -117,4 +117,12 @@ func getSubregionName(srID string) (string, error) {
 	}
 
 	return t.Name, nil
+}
+
+func convertWaveHeightUnits(u string) string {
+	if u == "FT" {
+		return "ft"
+	} else {
+		return "m"
+	}
 }
